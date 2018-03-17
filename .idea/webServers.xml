@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d15819c6-5a09-47ce-b444-b4bab001c762" name="projet5" url="http://localhost:8001">
+        <fileTransfer port="0" mountedRoot="C:\Users\_\Google Drive\Pierre Alloin - DIW\projet 5" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>
