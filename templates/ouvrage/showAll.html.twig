@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+
+    <div class="container">
+        <h1 class="text-center">Nos ouvrages</h1>
+        <div class="card-deck">
+            {% for ouvrage in ouvrages %}
+                {#<div class="row">#}
+                {#<div class="col-lg-1">#}
+                <div class="card mb-4 " style="width: 18rem;">
+                    <img class="card-img-top" src="{#{{ ouvrage.img }}#}https://images-na.ssl-images-amazon.com/images/I/61X24Z-IKML._SX425_BO1,204,203,200_.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ ouvrage.title }}</h5>
+                        <div class="btn-group">
+                            <a href="#" class="btn btn-primary">Plus d'information</a>
+                            <span class="btn btn-success disabled">disponible</span>
+                        </div>
+                    </div>
+                </div>
+                {#</div>#}
+                {#</div>#}
+            {% endfor %}
+        </div>
+    </div>
+
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+
+{% endblock %}

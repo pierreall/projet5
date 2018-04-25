@@ -1,0 +1,72 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    <h1 class="text-center pt-3 pb-3">{{ ouvrage.title }}</h1>
+    <section class="container">
+        <div class="row">
+            <div class="col-md col-lg-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="https://images-na.ssl-images-amazon.com/images/I/61X24Z-IKML._SX425_BO1,204,203,200_.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ ouvrage.title }}</h5>
+                        <p class="card-text">{{ ouvrage.subtitle }}</p>
+                        <div class="btn-group">
+                            <a href="#" class="btn btn-primary">Réserver l'ouvrage</a>
+                            <span class="btn btn-success disabled">disponible</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md col-lg-8">
+                <h2>Catégorie: {{ ouvrage.genre }}</h2>
+                <h3>Résumé :</h3>
+                <p class="text-justify">{{ ouvrage.resume }}</p>
+                <div class="info mb-2">
+                    <ul class="list-group">
+                        <li class="list-group-item">Auteur :  {{ ouvrage.author }}</li>
+                        <li class="list-group-item"> Editeur : {{ ouvrage.editor }}</li>
+                        <li class="list-group-item">Numero isbn: {{ ouvrage.ISBNumber }}</li>
+                        <li class="list-group-item">Classification : </li>
+                    </ul>
+                </div>
+                <h3>Avis des lecteurs :</h3>
+                <div class="" style="background-color: orange;"><!--
+   --><a href="#5" title="Donner 5 étoiles">☆</a><!--
+   --><a href="#4" title="Donner 4 étoiles">☆</a><!--
+   --><a href="#3" title="Donner 3 étoiles">☆</a><!--
+   --><a href="#2" title="Donner 2 étoiles">☆</a><!--
+   --><a href="#1" title="Donner 1 étoile">☆</a>
+                </div>
+                <span>nombres de votes : </span>
+            </div>
+
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <button class="btn btn-primary mb-4">donnez votre avis</button>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <table class="table">
+                    <tr>
+                        <th class="text-center border-right">Pseudo</th>
+                        <th class="text-center">Commentaire</th>
+                    </tr>
+                    {#{% for comment in comments %}#}
+                    {#<tr>#}
+                    {#<td class="align-middle text-center border-right">{{ comment }}</td>#}
+                    {#<td class="text-justify">{{ comment }}</td>#}
+                    {#<tr>#}
+                    {#{% endfor %}#}
+                </table>
+            </div>
+        </div>
+    </section>
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}
