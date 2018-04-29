@@ -1,0 +1,39 @@
+{% extends 'default/base_admin.html.twig' %}
+{% block title %}Mise a jour de l'ouvrage "{{ ouvrage.title }}"{% endblock %}
+{%  block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+
+    <h1 class="jumbotron">Mise à jour de l'ouvrage "{{ ouvrage.title }}"</h1>
+    <div class="container">
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        <div class="form-group">
+            <div class="bmd-label-floating">
+                {{ form_label(form.title) }}
+            </div>
+            {{ form_errors(form.title) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.sub_title) }}
+        </div>
+        <div class="form-group">
+           {{ form_row(form.genre) }}
+       </div>
+        <div class="form-group">
+           {{ form_row(form.resume) }}
+       </div>
+        <div class="form-group">
+       {{ form_row(form.author) }}
+       </div>
+        <div class="form-group">
+            {{ form_row(form.editor) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.isbnumber) }}
+        </div>
+        <button type="submit" class="btn btn-outline-success">Modifier</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

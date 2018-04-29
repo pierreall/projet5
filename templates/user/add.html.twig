@@ -1,0 +1,35 @@
+{% extends "default/base_admin.html.twig" %}
+{% block title %}
+    Ajout d'un nouvel utilisateur
+{% endblock %}
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="container mt-4">
+    <div class="jumbotron">
+        <h1 class="display-4">Ajout d'un nouvel utilisateur</h1>
+    </div>
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <div class="form-group">
+        <label for="">Nom d'utilisateur</label>
+        {{ form_row(form.username) }}
+    </div>
+    <div class="form-group">
+<label for="">Email</label>
+        {{ form_row(form.email) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.roles) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.isActive) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.Password.first) }}
+        {{ form_row(form.Password.second) }}
+    </div>
+    <button type="submit" class="btn btn-default">Créer</button>
+    {{ form_end(form) }}
+
+{% endblock %}

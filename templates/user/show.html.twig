@@ -1,0 +1,50 @@
+{% extends 'default/base_admin.html.twig' %}
+
+{% block title %}
+    Information sur {{ user.username }}
+{% endblock %}
+
+{% block body %}
+
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="container mt-4">
+        <h1>Informations sur {{ user.username }}</h1>
+        {#variable twig pour récupérer info utilisateur#}
+        <ul class="list-group">
+            <li class="list-group-item">Pseudo : {{ user.username }}</li>
+            <li class="list-group-item">Email : {{ user.email }}</li>
+            <li class="list-group-item">Password : {#{{ user.password }}#}</li>
+            <li class="list-group-item">Role : {{ user.roles[0] }}</li>
+            <li class="list-group-item">Actif : {{ user.isActive }}</li>
+        </ul>
+
+        <div class="mt-4 text-center">
+            <a href="{{ path('user_edit', {id: user.id}) }}"><button type="button" class="btn btn-success">Modifier</button></a>
+            <a href="{{ path('user_delete', {id : user.id}) }}"><button type="button" class="btn btn-danger">Supprimer</button></a>
+        </div>
+
+        <table class="table mt-4">
+            <thead class="thead">
+            <tr>
+                <th>Ouvrage emprunté</th>
+                <th>A rendre avant le </th>
+                <th>Rendu le</th>
+                <th>#</th>
+            </tr>
+            </thead>
+            {#{% for ouvrage in ouvrages  %}#}
+            <tr>
+                <td><a href="{#{{ path('ouvrage_show'), {id : 'ouvrage.id' }}#}">{#{{ ouvrage.name }}#}</a></td>
+                <td>{#{{ ouvrage.dateMax }}#}</td>
+                <td>{#{{ ouvrage.date }}#}</td>
+                <td></td>
+            </tr>
+            {# {% endfor %}#}
+
+        </table>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'default/base_admin.html.twig' %}
+
+{% block title %}Gestion des utilisateur{% endblock %}
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    <h1 class="jumbotron">Gestion des utilisateurs</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Pseudo utilisateur</th>
+                {#<th>Plus d'infos</th>#}
+            </tr>
+
+            </thead>
+
+            {% for user in users %}
+                <tr>
+                    <td><a href="{{ path('user_show',{id : user.id}) }}">{{ user.username }}</a></td>
+                    {#<td><i class="fas fa-cube"></i> </td>#}
+                </tr>
+            {%  else %}
+                Aucun utilisateur trouvé
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

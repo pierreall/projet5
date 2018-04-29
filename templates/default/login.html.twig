@@ -1,0 +1,35 @@
+{# templates/security/login.html.twig #}
+{# ... you will probably extend your base template, like base.html.twig #}
+{% extends 'base.html.twig' %}
+    {% block body %}
+        {% block header %}
+            {{ parent() }}
+        {% endblock %}
+        {% if error %}
+            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+
+        <form action="{{ path('login') }}" method="post" class="container mt-4">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="_password" class="form-control">
+            </div>
+            {#
+                If you want to control the URL the user
+                is redirected to on success (more details below)
+                <input type="hidden" name="_target_path" value="/account" />
+            #}
+            {#<input type="hidden" name="admin" value="/admin" />#}
+            <button type="submit" class="btn btn-default mb-4">login</button>
+        </form>
+
+        {% block footer %}
+            {{ parent() }}
+        {% endblock %}
+
+    {% endblock %}
