@@ -12,6 +12,10 @@
     </div>
     {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
     <div class="form-group">
+        <label for="">Illustration/couverture</label>
+            {{ form_row(form.picture) }}
+    </div>
+    <div class="form-group">
         <label for="">Titre</label>
         {{ form_row(form.title) }}
     </div>
@@ -39,6 +43,7 @@
         <label for="">Numero ISBN</label>
         {{ form_row(form.isbnumber) }}
     </div>
+
 
     <button type="submit" class="btn btn-outline-success">Ajouter</button>
     {{ form_end(form) }}

@@ -5,7 +5,7 @@
         {{ parent() }}
     {% endblock %}
 
-    <h1 class="jumbotron">Mise à jour de l'utilisateur {{ user.username }}</h1>
+    <h1 class="jumbotron container mt-4">Mise à jour de l'utilisateur {{ user.username }}</h1>
     <div class="container">
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         <div class="form-group">
@@ -29,7 +29,7 @@
               {{ form_row(form.Password.first, {'value': user.Password}) }}
        {{ form_row(form.Password.second) }}
        </div>
-        <button type="submit" class="btn btn-outline-success">Modifier</button>
+        <button type="submit" class="btn btn-outline-warning">Modifier</button>
         {{ form_end(form) }}
     </div>
 {% endblock %}

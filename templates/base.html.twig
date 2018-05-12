@@ -24,10 +24,10 @@
                             <a class="nav-link active" href="{#{{ path('lucky_home')}}#}">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{#{{ path('lucky_ouvrages')}}#}">Ouvrages</a>
+                            <a class="nav-link" href="{{ path('ouvrage_showAll') }}">Ouvrages</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{#{{ path('number')}}#}">Mon compte</a>
+                            <a class="nav-link" href="{{ path('login') }}">Se connecter</a>
                         </li>
                         {#<div class="dropdown-menu" aria-labelledby="navbarDropdown">#}
                         {#<a class="dropdown-item" href="#">Action</a>#}
@@ -47,6 +47,12 @@
             </nav>
         </header>
     {% endblock %}
+    {# you can read and display just one flash message type... #}
+    {% for message in app.flashes('notice') %}
+        <div class="flash-notice">
+        {{ message }}
+    </div>
+    {% endfor %}
     {% block footer %}
 
         <footer class="pt-4" style="background-color: #29456D; color: #fff;">

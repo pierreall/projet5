@@ -115,11 +115,29 @@ class UserController extends Controller
         $entityManager->flush();
 
         $this->addFlash(
-            'notice','L\'utilisateur a été supprimé'
+            'notice','L\'utilisateur a été supprimé'.$user->getUsername()
         );
 
 
         return $this->redirectToRoute('user_showAll');
+    }
+
+    /**
+     * @Route("/user/profil", name="user_profil")
+     */
+    public function myProfilAction(){
+        $myProfil = $this->getUser();
+       return $this->render('user/my_profil.html.twig', [
+            'myProfil' => $myProfil
+        ]);
+    }
+
+    /**
+     * @Route("/user/profil/edit", name="user_profil_edit")
+     */
+    public function myProfilEditAction(){
+        $idProfil = $this->getUser();
+        return $this->render('');
     }
 
 }

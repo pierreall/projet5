@@ -1,0 +1,32 @@
+{% extends 'default/base_admin.html.twig' %}
+
+{% block title %}
+    Gestion des ouvrages
+{% endblock %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+<h1 class="jumbotron container mt-4"><i class="fas fa-book" ></i> Gestions des ouvrages <a href="{{ path('ouvrage_add') }}" type="button" class="btn btn-success">Ajouter un ouvrage</a></h1>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Nom ouvrage</th>
+            <th class="text-center">Action</th>
+        </tr>
+        {% for ouv in ouvrage  %}
+            <tr>
+                <td><a href="{{ path('admin_ouvrage_show', {id : ouv.id}) }}" class="btn btn-link">{{ ouv.title }}</a></td>
+                <td class="text-center"><a href="{{ path('ouvrage_edit', {id : ouv.id}) }}" type="button" class="btn btn-warning">Modifier</a> ou <a href="{{ path('ouvrage_delete', {id : ouv.id}) }}" type="button" class="btn btn-danger">Supprimer</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+
+
+
+
+
+{% endblock %}

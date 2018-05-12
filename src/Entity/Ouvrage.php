@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OuvrageRepository")
@@ -18,26 +20,31 @@ class Ouvrage
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank()
      */
     private $subTitle;
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $genre;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private $resume;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
      */
     private $author;
 
@@ -49,7 +56,13 @@ class Ouvrage
     /**
      * @ORM\Column(type="bigint", nullable=true)
      */
-    private $ISBNumber;
+    private $Isbnumber;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\File(maxSize = "1024k", mimeTypes={"image/jpeg", "image/jpg", "image/png"})
+     */
+    private $picture;
 
     /**
      * @return mixed
@@ -150,18 +163,19 @@ class Ouvrage
     /**
      * @return mixed
      */
-    public function getISBNumber ()
+    public function getIsbnumber ()
     {
-        return $this->ISBNumber;
+        return $this->Isbnumber;
     }
 
     /**
-     * @param mixed $ISBNumber
+     * @param mixed $Isbnumber
      */
-    public function setISBNumber ($ISBNumber): void
+    public function setIsbnumber ($Isbnumber): void
     {
-        $this->ISBNumber = $ISBNumber;
+        $this->Isbnumber = $Isbnumber;
     }
+
 
 
 
@@ -169,4 +183,23 @@ class Ouvrage
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPicture ()
+    {
+        return $this->picture;
+    }
+
+    /**
+     * @param mixed $picture
+     */
+    public function setPicture ($picture): void
+    {
+        $this->picture = $picture;
+    }
+
+
+
 }

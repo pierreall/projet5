@@ -4,36 +4,54 @@
     {% block header %}
         {{ parent() }}
     {% endblock %}
-
-    <h1 class="jumbotron">Mise à jour de l'ouvrage "{{ ouvrage.title }}"</h1>
+    <h1 class="jumbotron container mt-4">Mise à jour de l'ouvrage "{{ ouvrage.title }}"</h1>
     <div class="container">
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         <div class="form-group">
-            <div class="bmd-label-floating">
-                {{ form_label(form.title) }}
-            </div>
-            {{ form_errors(form.title) }}
-            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+            <label for="" class="text-dark">Illustration/couverture</label>
+            {{ form_row(form.picture) }}
         </div>
         <div class="form-group">
+            <label for="" >Titre</label>
+            {{ form_row(form.title) }}
+        </div>
+        <div class="form-group">
+            <label for="" >Sous Titre</label>
             {{ form_row(form.sub_title) }}
         </div>
         <div class="form-group">
-           {{ form_row(form.genre) }}
-       </div>
+            <label for="">Genre</label>
+            {{ form_row(form.genre) }}
+        </div>
         <div class="form-group">
-           {{ form_row(form.resume) }}
-       </div>
+            <label for="" >Résumé</label>
+            {#<textarea name="content" id="editor">This is some sample content.</textarea>#}
+            {{ form_row(form.resume) }}
+        </div>
         <div class="form-group">
-       {{ form_row(form.author) }}
-       </div>
+            <label for="" >Auteur</label>
+            {{ form_row(form.author) }}
+        </div>
         <div class="form-group">
+            <label for="" >Editeur</label>
             {{ form_row(form.editor) }}
         </div>
         <div class="form-group">
+            <label for="">Numero ISBN</label>
             {{ form_row(form.isbnumber) }}
         </div>
-        <button type="submit" class="btn btn-outline-success">Modifier</button>
+        <button type="submit" class="btn btn-outline-warning">Modifier</button>
         {{ form_end(form) }}
     </div>
+    {#{% block javascript %}#}
+     {#{{ parent() }}#}
+        {#<script>#}
+           {#ClassicEditor.create(document.querySelector('#editor')).then(function (editor) {#}
+    {#console.log('Editor was initialized', editor);#}
+{#}).catch(function (err) {#}
+    {#console.error(err.stack);#}
+{#});#}
+            {#</script>#}
+    {#{% endblock %}#}
 {% endblock %}
+

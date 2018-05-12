@@ -31,7 +31,9 @@ class OuvrageType extends AbstractType
                 'attr' => array('class' => 'form-control')))
             ->add('isbnumber', IntegerType::class, array('label' => false,
                 'attr' => array('class' => 'form-control')))
-            ->add('picture', FileType::class)
+            ->add('picture', FileType::class, array( 'required' => false,
+                'data_class' => null, 'label' => false,
+                'attr' => array('class' => 'form-control-file')))
         ;
     }
 
