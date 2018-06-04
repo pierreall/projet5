@@ -10,6 +10,7 @@
             <div class="col-md col-lg-4">
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="{{ asset('uploads/pictures/' ~ ouvrage.picture) }}" alt="Card image cap">
+                    <!--{{ dump(ouvrage.picture) }}-->
                     <div class="card-body">
                         <h5 class="card-title">{{ ouvrage.title }}</h5>
                         <p class="card-text">{{ ouvrage.subtitle }}</p>
@@ -23,7 +24,9 @@
             <div class="col-md col-lg-8">
                 <h2>Catégorie: {{ ouvrage.genre }}</h2>
                 <h3>Résumé :</h3>
-                <p class="text-justify">{{ ouvrage.resume }}</p>
+                <p class="text-justify">{% autoescape %}
+                        {{ ouvrage.resume |raw }} {# var won't be escaped #}
+                    {% endautoescape %}</p>
                 <div class="info mb-2">
                     <ul class="list-group">
                         <li class="list-group-item">Auteur :  {{ ouvrage.author }}</li>

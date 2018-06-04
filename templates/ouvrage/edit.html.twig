@@ -9,7 +9,7 @@
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         <div class="form-group">
             <label for="" class="text-dark">Illustration/couverture</label>
-            {{ form_row(form.picture) }}
+            {{ form_row(form.picture, {'attr': {'value' : ouvrage.picture}}) }}
         </div>
         <div class="form-group">
             <label for="" >Titre</label>
@@ -24,9 +24,8 @@
             {{ form_row(form.genre) }}
         </div>
         <div class="form-group">
-            <label for="" >Résumé</label>
-            {#<textarea name="content" id="editor">This is some sample content.</textarea>#}
-            {{ form_row(form.resume) }}
+            <label for="editor" >Résumé</label>
+            {{ form_widget(form.resume, {'attr': {'hidden': 'hidden'}})}}
         </div>
         <div class="form-group">
             <label for="" >Auteur</label>
@@ -42,16 +41,22 @@
         </div>
         <button type="submit" class="btn btn-outline-warning">Modifier</button>
         {{ form_end(form) }}
+        {{ dump(form.picture) }}
     </div>
-    {#{% block javascript %}#}
-     {#{{ parent() }}#}
-        {#<script>#}
-           {#ClassicEditor.create(document.querySelector('#editor')).then(function (editor) {#}
-    {#console.log('Editor was initialized', editor);#}
-{#}).catch(function (err) {#}
-    {#console.error(err.stack);#}
-{#});#}
-            {#</script>#}
-    {#{% endblock %}#}
+    {% block javascripts %}
+     {{ parent() }}
+{#        <script src="https://cdn.ckeditor.com/ckeditor5/10.0.0/classic/ckeditor.js"></script>
+        <script>
+            ClassicEditor.create(document.querySelector('#ouvrage_resume')).then(function (editor) {
+                console.log('Editor was initialized edit', editor);
+            }).catch(function (err) {
+                console.error(err.stack);
+            });
+            </script>#}
+        <script src="//cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+
+       <script>CKEDITOR.replace('ouvrage_resume');</script>
+
+    {% endblock %}
 {% endblock %}
 
