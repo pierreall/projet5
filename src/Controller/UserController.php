@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserProfilType;
 use App\Form\UserType;
 //use http\Env\Request;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+
 
 class UserController extends Controller
 {
@@ -133,11 +136,27 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/user/profil/edit", name="user_profil_edit")
+     * @Route("/user/profil/edit/{id}", name="user_profil_edit")
      */
-    public function myProfilEditAction(){
-        $idProfil = $this->getUser();
-        return $this->render('');
+    public function myProfilEditAction(User $user, Request $request, UserPasswordEncoderInterface $passwordEncoder){
+        $entityManager = $this->getDoctrine()->getManager();
+
+
+        $form = $this->createForm(UserProfilType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted()&&$form->isValid()){
+            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_profil');
+        }
+        return $this->render('user/edit_my_profil.html.twig', [
+            'form' =>$form->createView(),
+            'user' => $user
+        ]);
     }
+
 
 }

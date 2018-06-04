@@ -5,9 +5,12 @@ namespace App\Form;
 use App\Entity\Ouvrage;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -23,17 +26,17 @@ class OuvrageType extends AbstractType
                 'attr' => array('class' => 'form-control')))
             ->add('genre', TextType::class, array('label' => false,
                 'attr' => array('class' => 'form-control')))
-            ->add('resume', TextareaType::class, array('label' => false,
+            ->add('resume', TextareaType::class,  array('label' => false,
                 'attr' => array('class' => 'form-control')))
             ->add('author', TextType::class, array('label' => false,
                 'attr' => array('class' => 'form-control')))
             ->add('editor', TextType::class, array('label' => false,
                 'attr' => array('class' => 'form-control')))
-            ->add('isbnumber', IntegerType::class, array('label' => false,
+            ->add('isbnumber', TextType::class, array('label' => false,
                 'attr' => array('class' => 'form-control')))
             ->add('picture', FileType::class, array( 'required' => false,
                 'data_class' => null, 'label' => false,
-                'attr' => array('class' => 'form-control-file')))
+                'attr' => array('class' => 'form-control-file')/*, 'empty_data' => '67ed4725ccd826c68edc65f1313f7994.jpeg'*/))
         ;
     }
 
@@ -43,4 +46,6 @@ class OuvrageType extends AbstractType
             'data_class' => Ouvrage::class,
         ));
     }
+
+
 }

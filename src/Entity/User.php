@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -53,6 +54,14 @@ class User implements UserInterface, \Serializable
     private $roles;
 
 
+    /**
+     * @SecurityAssert\UserPassword(
+     *     message = "Erreur votre mot de passe actuel ne correspond pas"
+     * )
+     */
+    protected $oldPassword;
+
+
 
     public function __construct()
     {
@@ -99,6 +108,7 @@ class User implements UserInterface, \Serializable
 // $this->salt,
         ));
     }
+
 
     /**
      * @param mixed $username
@@ -174,6 +184,22 @@ class User implements UserInterface, \Serializable
     public function getId ()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOldPassword ()
+    {
+        return $this->oldPassword;
+    }
+
+    /**
+     * @param mixed $oldPassword
+     */
+    public function setOldPassword ($oldPassword): void
+    {
+        $this->oldPassword = $oldPassword;
     }
 
 

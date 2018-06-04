@@ -142,46 +142,118 @@ class OuvrageController extends Controller
 
 
 
+//    /**
+//     * @Route("/admin/ouvrage/edit/{id}", name="ouvrage_edit")
+//     */
+//    public function editAction(Ouvrage $ouvrage, Request $request)
+//    {
+////$ouvrage->setPicture('67ed4725ccd826c68edc65f1313f7994.jpeg');
+//        $entityManager = $this->getDoctrine()->getManager();
+//
+//        var_dump('1er '.$ouvrage->getPicture());
+//
+//
+//        if(($ouvrage->getPicture() != null) && ($ouvrage->getPicture() != "")  ){
+//            $ouvrage->setPicture(
+//                new File($this->getParameter('pictures_directory').'/'.$ouvrage->getPicture())
+//            );
+//        }
+//
+//        $oldFile = $ouvrage->getPicture();
+//
+//        var_dump('test'.$oldFile);
+//
+//        $form = $this->createForm(OuvrageType::class, $ouvrage);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted()&& $form->isValid()){
+//            var_dump('la 3eme '.$ouvrage->getPicture());
+////die();
+//            if($ouvrage->getPicture() != $oldFile) {
+//                $file = $ouvrage->getPicture();
+//                $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
+//                $file->move(
+//                    $this->getParameter('pictures_directory'),
+//                    $fileName
+//                );
+//                $ouvrage->setPicture($fileName);
+//            }
+//
+//            $entityManager->flush();
+//
+//            return $this->redirectToRoute('ouvrage_show');
+//        }
+//
+//
+////        var_dump($ouvrage);
+//        return $this->render('ouvrage/edit.html.twig', [
+//            'form' => $form->createView(),
+//            'ouvrage' => $ouvrage
+//        ]);
+//    }
+
+    //--------------------//
+
+
     /**
      * @Route("/admin/ouvrage/edit/{id}", name="ouvrage_edit")
      */
-    public function editAction(Ouvrage $ouvrage, Request $request)
+    public function edit2Action(Ouvrage $ouvrage , Request $request)
     {
-        if($ouvrage->getPicture()){
-            $ouvrage->setPicture(
-                new File($this->getParameter('pictures_directory').'/'.$ouvrage->getPicture())
-            );
-        }
-
         $entityManager = $this->getDoctrine()->getManager();
-
+        $oldFile = $ouvrage->getPicture();
+        $ouvrage->setPicture(
+            new File($this->getParameter('pictures_directory').'/'.$ouvrage->getPicture())
+        );
 
         $form = $this->createForm(OuvrageType::class, $ouvrage);
 
-
         $form->handleRequest($request);
 
-
-        if ($form->isSubmitted()&&$form->isValid()){
+        if($form->isSubmitted()&&$form->isValid()){
+//            $ouvrage->setPicture(
+//                new File($this->getParameter('pictures_directory').'/'.$ouvrage->getPicture())
+//            );
             $file = $ouvrage->getPicture();
-            $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
-            $file->move(
-                $this->getParameter('pictures_directory'),
-                $fileName
-            );
-            $ouvrage->setPicture($fileName);
+            var_dump('submit '.$file);
+
+            $info = $form->getData();
+
+            var_dump($info);
+
+            if($info->getPicture() != null){
+                $file = $info->getPicture();
+                $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
+
+                $file->move(
+                    $this->getParameter('pictures_directory'),
+                    $fileName
+                );
+
+                $ouvrage->setPicture($fileName);
+            } else {
+                $ouvrage->setPicture($oldFile);
+            }
 
 
             $entityManager->flush();
 
+
             return $this->redirectToRoute('ouvrage_showAll');
         }
-        var_dump($ouvrage);
+
         return $this->render('ouvrage/edit.html.twig', [
-            'form' => $form->createView(),
+            'form' =>$form->createView(),
             'ouvrage' => $ouvrage
         ]);
     }
+
+
+
+
+
+
+
 
     /**
      * @Route("/admin/ouvrage/delete/{id}", name="ouvrage_delete")
@@ -196,13 +268,65 @@ class OuvrageController extends Controller
             'notice', 'L\'ouvrage a été supprimé'
         );
 
-        return $this->redirectToRoute('ouvrage_showAll');
+        return $this->redirectToRoute('admin_ouvrage_managementAll');
     }
 
     private function generateUniqueFileName ()
     {
         return md5(uniqid());
     }
+
+
+
+    public function reservationdAction(Ouvrage $ouvrage){
+//TODO ajouter champ Reservation et user (voir clé étrangere) dans Entity Ouvrage
+        if($ouvrage->getReservation == false){
+            $entityManager = $this->getDoctrine()->getManager();
+            $ouvrage->setReservation(true);
+            $user = $this->getUser('id');
+            $ouvrage->setUser($user);
+
+            $entityManager->persist($ouvrage);
+            $entityManager->flush();
+            $this->addFlash('notice', 'L\'ouvrage va être mis de cotés dans les plus bref délais' );
+        } else {
+            $this->addFlash(
+                'warning','L\'ouvrage est déjà reservé'
+            );
+        }
+
+    }
+
+
+ /*   public function empruntAction(Ouvrage $ouvrage, User $user, Request $request){
+        if(($ouvrage->getRerservation == false) && ($ouvrage->getEmprunt() == false) ){
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $form = $this->createForm(EmpruntType::class, $ouvrage);
+
+            $form->handleRequest($request);
+
+            if($form->isSubmitted()&&$form->isValid()){
+
+                $user->setUser($this->getUser());
+                $entityManager->persist($ouvrage);
+                $entityManager->flush();
+
+
+                return $this->redirectToRoute('ouvrage_showAll');
+            }
+
+
+            $this->render('ouvrage/emprunt.html.twig',[
+                'form' => $form->createView()
+            ]);
+        }
+    }*/
+
+//public function returnBookAction($ouvrage, $user){
+//
+//}
+
 
 
 }

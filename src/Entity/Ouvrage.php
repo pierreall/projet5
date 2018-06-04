@@ -54,7 +54,8 @@ class Ouvrage
     private $editor;
 
     /**
-     * @ORM\Column(type="bigint", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Isbn(type="null", message="Isbn invalide")
      */
     private $Isbnumber;
 
