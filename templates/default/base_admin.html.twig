@@ -46,19 +46,19 @@
         </header>
         {# you can read and display just one flash message type... #}
         {% for message in app.flashes('notice') %}
-            <div class="flash-notice">
-        {{ message }}
-    </div>
+            <div class="alert alert-info alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <div class="flash-notice">
+                    {{ message }}
+                </div>
+            </div>
         {% endfor %}
     {% endblock %}
 
-
-
     <br>
-
-
-
-
 
     {% block footer %}
 
