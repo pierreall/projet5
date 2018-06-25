@@ -2,15 +2,29 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @ORM\Table(name="ouvrage")
  * @ORM\Entity(repositoryClass="App\Repository\OuvrageRepository")
  */
 class Ouvrage
 {
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="ouvrages")
+     *
+     *
+     */
+    private $user;
+    public function __construct ()
+    {
+//        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -199,6 +213,22 @@ class Ouvrage
     public function setPicture ($picture): void
     {
         $this->picture = $picture;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser ()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser ($user): void
+    {
+        $this->user = $user;
     }
 
 

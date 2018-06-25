@@ -2,12 +2,13 @@
 // src/Entity/User.php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Table(name="app_users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -16,6 +17,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, \Serializable
 {
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Ouvrage", mappedBy="user")
+     */
+    private $ouvrages;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -66,6 +73,7 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = true;
+        $this->ouvrages = new ArrayCollection();
 // may not be needed, see section on salt below
 // $this->salt = md5(uniqid('', true));
     }
@@ -200,6 +208,22 @@ class User implements UserInterface, \Serializable
     public function setOldPassword ($oldPassword): void
     {
         $this->oldPassword = $oldPassword;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOuvrages ()
+    {
+        return $this->ouvrages;
+    }
+
+    /**
+     * @param mixed $ouvrages
+     */
+    public function setOuvrages ($ouvrages): void
+    {
+        $this->ouvrages = $ouvrages;
     }
 
 
