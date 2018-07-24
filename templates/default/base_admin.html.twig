@@ -13,7 +13,7 @@
 {% block body %}
     {% block header %}
         <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark" {#style="background-color: #AB47BC;"#}>
+            <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: teal;/*#AB47BC;*/">
                 {#<a class="navbar-brand" href="#">Navbar</a>#}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -27,14 +27,18 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('admin_ouvrage_classic_showAll')}}"><i class="fab fa-searchengin fa-lg"></i> Les ouvrages</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin_ouvrage_managementAll')}}"><i class="fas fa-book fa-lg"></i> Gestion des ouvrages</a>
-                        </li>
+                       <li class="nav-item">
+                           <a class="nav-link"  href="{{ path('admin_ouvrage_managementAll')}}"><i class="fas fa-book fa-lg"></i> Gestion des ouvrages</a>
+
+                       </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('user_showAll')}}"><i class="fas fa-users fa-lg"></i> Gestion utilisateurs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('user_profil') }}"><i class="fas fa-user-circle fa-lg"></i> Mon profil</a>
+                            <a class="nav-link" href="{{ path('user_profil_admin') }}"><i class="fas fa-user-circle fa-lg"></i> Mon profil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt fa-lg"></i> Déconnexion</a>
                         </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
@@ -46,7 +50,7 @@
         </header>
         {# you can read and display just one flash message type... #}
         {% for message in app.flashes('notice') %}
-            <div class="alert alert-info alert-dismissible" role="alert">
+            <div class="alert alert-info alert-dismissible" role="alert" id="message">
                 <button type="button" class="close" data-dismiss="alert">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
@@ -66,6 +70,11 @@
 
 {% endblock %}
 {% block javascripts %}
+    <script>
+        setTimeout(function() {
+            document.getElementById('message').remove();
+        },5000);
+    </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>

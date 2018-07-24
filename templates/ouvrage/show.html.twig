@@ -14,10 +14,17 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ ouvrage.title }}</h5>
                         <p class="card-text">{{ ouvrage.subtitle }}</p>
+                        {% if is_granted('ROLE_USER') %}
                         <div class="btn-group">
-                            <a href="#" class="btn btn-primary">Réserver l'ouvrage</a>
-                            <span class="btn btn-success disabled">disponible</span>
+                            {% if ouvrage.dateReservation == null %}
+                                <a href="{{ path('ouvrage_reservation',{id: ouvrage.id}) }}" class="btn btn-primary">Réserver l'ouvrage</a>
+                                <span class="btn btn-success disabled">disponible</span>
+                            {% else %}
+                                <a class="btn btn-primary disabled">Réserver l'ouvrage</a>
+                                <span class="btn btn-danger disabled">indisponible</span>
+                            {% endif %}
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -30,7 +37,7 @@
                 <div class="info mb-2">
                     <ul class="list-group">
                         <li class="list-group-item">Auteur :  {{ ouvrage.author }}</li>
-                        <li class="list-group-item"> Editeur : {{ ouvrage.editor }}</li>
+                        <li class="list-group-item">Editeur : {{ ouvrage.editor }}</li>
                         <li class="list-group-item">Numero isbn: {{ ouvrage.ISBNumber }}</li>
                         <li class="list-group-item">Classification : </li>
                     </ul>
@@ -47,11 +54,13 @@
             </div>
 
         </div>
+        {% if is_granted('ROLE_USER') %}
         <div class="row mt-3">
             <div class="col">
                 <button class="btn btn-primary mb-4">donnez votre avis</button>
             </div>
         </div>
+        {% endif %}
         <div class="row mb-2">
             <div class="col">
                 <table class="table">

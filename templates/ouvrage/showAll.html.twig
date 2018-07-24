@@ -18,7 +18,13 @@
                         <h5 class="card-title">{{ ouvrage.title }}</h5>
                         <div class="btn-group">
                             <a href="{{ path('ouvrage_show',{id: ouvrage.id}) }}" class="btn btn-primary">Plus d'information</a>
-                            <span class="btn btn-success disabled">disponible</span>
+                            {% if is_granted('ROLE_USER') %}
+                                {% if ouvrage.dateReservation == null %}
+                                    <span class="btn btn-success disabled">disponible</span>
+                                {% else %}
+                                    <span class="btn btn-danger disabled">indisponible</span>
+                                {% endif %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -29,6 +35,8 @@
     </div>
 
     {% block footer %}
+        <br><br><br><br><br><br>
+
         {{ parent() }}
     {% endblock %}
 

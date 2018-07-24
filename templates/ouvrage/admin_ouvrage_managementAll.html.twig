@@ -8,7 +8,9 @@
     {% block header %}
         {{ parent() }}
     {% endblock %}
-<h1 class="jumbotron container mt-4"><i class="fas fa-book" ></i> Gestions des ouvrages <a href="{{ path('ouvrage_add') }}" type="button" class="btn btn-success">Ajouter un ouvrage</a></h1>
+<h1 class="jumbotron container mt-4"><i class="fas fa-book" ></i> Gestions des ouvrages <a href="{{ path('ouvrage_add') }}" type="button" class="btn btn-success">Ajouter un ouvrage</a>
+    <a href="{{ path('ouvrage_showAllReservation') }}" type="button" class="btn btn-success">Afficher réservations</a>
+</h1>
 
     <table class="table table-striped">
         <tr>

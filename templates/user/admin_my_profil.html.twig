@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'default/base_admin.html.twig' %}
 {% block title %}
     Mon Profil
 {% endblock %}
@@ -32,11 +32,11 @@
             </tr>
             </thead>
             {% for ouvrage in ouvrages %}
-            <tr>
-                <td>{{ ouvrage.title }}| numéro ISBN :  {{ ouvrage.isbnumber }}</td>
-                <td>{{ ouvrage.dateReservation|date('d/m/Y à H:i') }}</td>
-                <td>{{ ouvrage.dateReservation|date_modify("+12 hours")|date('d/m/Y à H:i') }}</td>
-            </tr>
+                <tr>
+                    <td>{{ ouvrage.title }}| numéro ISBN :  {{ ouvrage.isbnumber }}</td>
+                    <td>{{ ouvrage.dateReservation|date('d/m/Y à H:i') }}</td>
+                    <td>{{ ouvrage.dateReservation|date_modify("+12 hours")|date('d/m/Y à H:i') }}</td>
+                </tr>
             {% endfor %}
 
         </table>

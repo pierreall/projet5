@@ -14,8 +14,13 @@
                         <h5 class="card-title">{{ ouvrage.title }}</h5>
                         <p class="card-text">{{ ouvrage.subtitle }}</p>
                         <div class="btn-group">
-                            <a href="#" class="btn btn-primary">Réserver l'ouvrage</a>
-                            <span class="btn btn-success disabled">disponible</span>
+                            {% if ouvrage.dateReservation == null %}
+                                <a href="{{ path('ouvrage_reservation',{id: ouvrage.id}) }}" class="btn btn-primary">Réserver l'ouvrage</a>
+                                <span class="btn btn-success disabled">disponible</span>
+                            {% else %}
+                                <a class="btn btn-primary disabled">Réserver l'ouvrage</a>
+                                <span class="btn btn-danger disabled">indisponible</span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -48,7 +53,20 @@
         </div>
         <div class="row mt-3">
             <div class="col">
-                <button class="btn btn-primary mb-4">donnez votre avis</button>
+                <button class="btn btn-primary mb-4" id="btnAddComment">donnez votre avis</button>
+            </div>
+
+            <div class="container mt-4" id="addComment">
+                    <h1>Ajout d'un commentaire</h1>
+                {# form_start(form, {'attr': {'novalidate': 'novalidate'}}) #}
+                <div class="form-group">
+                    {# form_row(form.comment) #}
+                    <textarea name="comments" id="comments" cols="30" rows="10">
+
+                    </textarea>
+                </div>
+                <button type="submit" class="btn btn-outline-success">Ajouter</button>
+                {# form_end(form) #}
             </div>
         </div>
         <div class="row mb-2">
@@ -68,4 +86,17 @@
             </div>
         </div>
     </section>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#addComment').hide();
+        $('#btnAddComment').on('click', function () {
+            $('#addComment').toggle();
+        });
+    </script>
+    <script src="//cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+
+    <script>CKEDITOR.replace('comments');</script>
 {% endblock %}

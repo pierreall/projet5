@@ -17,8 +17,12 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ ouvrage.title }}</h5>
                         <div class="btn-group">
-                            <a href="{{ path('ouvrage_show',{id: ouvrage.id}) }}" class="btn btn-primary">Plus d'information</a>
-                            <span class="btn btn-success disabled">disponible</span>
+                            <a href="{{ path('admin_ouvrage_show',{id: ouvrage.id}) }}" class="btn btn-primary">Plus d'information</a>
+                            {% if ouvrage.dateReservation == null %}
+                                <span class="btn btn-success disabled">disponible</span>
+                            {% else %}
+                                <span class="btn btn-danger disabled">indisponible</span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -26,6 +30,17 @@
                 {#</div>#}
             {% endfor %}
         </div>
+        <nav aria-label="Page navigation example" class="center">
+            <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="#">Précédent</a></li>
+                <li class="page-itemactive"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item"><a class="page-link" href="#">Suivant</a></li>
+            </ul>
+        </nav>
     </div>
 
     {% block footer %}

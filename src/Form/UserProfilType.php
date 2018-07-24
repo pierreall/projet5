@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\UserProfil;
 use App\Form\Model\ChangePassword;
 
 
@@ -28,7 +29,7 @@ class UserProfilType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => User::class,
+            'data_class' => UserProfil::class
         ));
     }
 }

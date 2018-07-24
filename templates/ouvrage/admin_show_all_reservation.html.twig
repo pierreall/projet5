@@ -1,0 +1,31 @@
+{% extends "default/base_admin.html.twig" %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="jumbotron">
+        <h1>Reservation en cours</h1>
+    </div>>
+    <div class="container">
+
+        <table class="table">
+            <tr>
+                <th>Noms client</th>
+                <th>Nom ouvrage</th>
+                <th>Date de réservation</th>
+            </tr>
+            {% for ouvrage in ouvrages %}
+                {% if ouvrage.user != null %}
+                    <tr>
+                        <td>{{ ouvrage.user.username }}</td>
+                        <td>{{ ouvrage.title }}</td>
+                        <td>{{ ouvrage.dateReservation|date('d/m/Y à H:i') }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+
+
+{% endblock %}

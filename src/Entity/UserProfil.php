@@ -15,14 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @UniqueEntity(fields="email", message="Email déjà utilisé")
  * @UniqueEntity(fields="username", message="Nom d'utilisateur déjà utilisé")
  */
-class User implements UserInterface, \Serializable
+class UserProfil implements UserInterface, \Serializable
 {
-    /**
-     * @var Collection
-     * @ORM\OneToMany(targetEntity="Ouvrage", mappedBy="user")
-     */
-    private $ouvrages;
-
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -50,32 +44,17 @@ class User implements UserInterface, \Serializable
     private $email;
 
     /**
-     * @ORM\Column(name="is_active", type="boolean")
+     * @SecurityAssert\UserPassword(
+     *     message = "Erreur votre mot de passe actuel ne correspond pas"
+     * )
      */
-    private $isActive;
-
-    /**
-     * @ORM\Column(name="roles", type="string")
-     * @Assert\NotBlank()
-     */
-    private $roles;
-
-
-//    /**
-//     * @SecurityAssert\UserPassword(
-//     *     message = "Erreur votre mot de passe actuel ne correspond pas"
-//     * )
-//     */
-//    protected $oldPassword;
+    protected $oldPassword;
 
 
 
     public function __construct()
     {
         $this->isActive = true;
-        $this->ouvrages = new ArrayCollection();
-// may not be needed, see section on salt below
-// $this->salt = md5(uniqid('', true));
     }
 
     public function getUsername()
@@ -95,11 +74,6 @@ class User implements UserInterface, \Serializable
         return $this->password;
     }
 
-    public function getRoles()
-    {
-//return array('ROLE_USER');
-        return array($this->roles);
-    }
 
     public function eraseCredentials()
     {
@@ -142,21 +116,7 @@ class User implements UserInterface, \Serializable
         $this->email = $email;
     }
 
-    /**
-     * @param mixed $isActive
-     */
-    public function setIsActive ($isActive): void
-    {
-        $this->isActive = $isActive;
-    }
 
-    /**
-     * @param mixed $roles
-     */
-    public function setRoles ($roles): void
-    {
-        $this->roles = $roles[0];
-    }
 
     /** @see \Serializable::unserialize() */
     public function unserialize($serialized)
@@ -176,14 +136,6 @@ class User implements UserInterface, \Serializable
     public function getEmail ()
     {
         return $this->email;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getisActive ()
-    {
-        return $this->isActive;
     }
 
     /**
@@ -211,21 +163,23 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
+     * Returns the roles granted to the user.
+     *
+     * <code>
+     * public function getRoles()
+     * {
+     *     return array('ROLE_USER');
+     * }
+     * </code>
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return (Role|string)[] The user roles
      */
-    public function getOuvrages ()
+    public function getRoles ()
     {
-        return $this->ouvrages;
+        // TODO: Implement getRoles() method.
     }
-
-    /**
-     * @param mixed $ouvrages
-     */
-    public function setOuvrages ($ouvrages): void
-    {
-        $this->ouvrages = $ouvrages;
-    }
-
-
-
 }

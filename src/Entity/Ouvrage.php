@@ -80,6 +80,11 @@ class Ouvrage
     private $picture;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateReservation;
+
+    /**
      * @return mixed
      */
     public function getTitle ()
@@ -230,6 +235,24 @@ class Ouvrage
     {
         $this->user = $user;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDateReservation ()
+    {
+        return $this->dateReservation;
+    }
+
+    /**
+     * @param mixed $dateReservation
+     */
+    public function setDateReservation ($dateReservation): void
+    {
+        $this->dateReservation = $dateReservation;
+    }
+
+
 
 
 
