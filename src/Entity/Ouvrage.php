@@ -85,6 +85,11 @@ class Ouvrage
     private $dateReservation;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+  private $comment;
+
+    /**
      * @return mixed
      */
     public function getTitle ()
@@ -250,6 +255,22 @@ class Ouvrage
     public function setDateReservation ($dateReservation): void
     {
         $this->dateReservation = $dateReservation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComment ()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param mixed $comment
+     */
+    public function setComment ($comment): void
+    {
+        $this->comment = $comment;
     }
 
 

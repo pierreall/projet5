@@ -61,12 +61,12 @@ class User implements UserInterface, \Serializable
     private $roles;
 
 
-//    /**
-//     * @SecurityAssert\UserPassword(
-//     *     message = "Erreur votre mot de passe actuel ne correspond pas"
-//     * )
-//     */
-//    protected $oldPassword;
+    /**
+     * @SecurityAssert\UserPassword(
+     *     message = "Erreur votre mot de passe actuel ne correspond pas"
+     * )
+     */
+    protected $oldPassword;
 
 
 

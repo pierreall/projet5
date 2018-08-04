@@ -1,0 +1,54 @@
+{% extends 'default/base_admin.html.twig' %}
+
+{% block body  %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    <section class="container-fluid">
+        <h1 class="text-center mt-3">Bienvenue à la bibliothèque {#{{ nomBiblio }#}</h1>
+
+
+        <img src="https://blog.thebookedition.com/wp-content/uploads/2014/09/Bibliotheque_municipale_-_Grenoble-1024x768.jpg" alt="bibliotheque_grenoble" class="img-responsive" width="100%">
+
+
+
+
+        <h2 class="mt-4">Nos dernier Ouvrage</h2>
+        <!-- affichage des 3 dernier ouvrage, photo couverture et titre (rien d'autre)-->
+        <div class="card-group">
+            <div class="card">
+                <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="mt-4">Infos Bibliothèque</h3>
+        <h4>Adresse : </h4>
+        <!--  affichag carte emplacement + horaire  -->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14237.424871363371!2d2.1684374062908094!3d41.39472301905928!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x137bffcd99b15107!2sBiblioteca+Sofia+Barat!5e0!3m2!1sen!2sfr!4v1532521311273" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+        <h3 class="mt-4">Contact</h3>
+        <form action="" class="container">
+            <div class="form-group">
+                <label for="">Nom :</label>
+                <input type="text" name="nom" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="">Email :</label>
+                <input type="email" name="email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="">Message :</label>
+                <textarea name="" id="" cols="30" rows="10" class="form-control">
+      Votre message
+    </textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="envoyer message" class="form-control btn btn-success">
+            </div>
+        </form>
+    </section>
+{% endblock %}

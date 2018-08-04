@@ -56,18 +56,17 @@
                 <button class="btn btn-primary mb-4" id="btnAddComment">donnez votre avis</button>
             </div>
 
-            <div class="container mt-4" id="addComment">
-                    <h1>Ajout d'un commentaire</h1>
-                {# form_start(form, {'attr': {'novalidate': 'novalidate'}}) #}
-                <div class="form-group">
-                    {# form_row(form.comment) #}
-                    <textarea name="comments" id="comments" cols="30" rows="10">
+            {#<div class="container mt-4" id="addComment">#}
+                    {#<h1>Ajout d'un commentaire</h1>#}
+                {#{  form_start(form, {'attr': {'novalidate': 'novalidate'}}) }#}
+                {#<div class="form-group">#}
+                    {#{  form_row(form.comment) }#}
+                {#</div>#}
+                {#<button type="submit" class="btn btn-outline-success">Ajouter</button>#}
+                {#{  form_end(form) }#}
+            {#</div>#}
 
-                    </textarea>
-                </div>
-                <button type="submit" class="btn btn-outline-success">Ajouter</button>
-                {# form_end(form) #}
-            </div>
+            {#{ include("ouvrage/add_comment.html.twig") }#}
         </div>
         <div class="row mb-2">
             <div class="col">
@@ -98,5 +97,5 @@
     </script>
     <script src="//cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
 
-    <script>CKEDITOR.replace('comments');</script>
+    <script>CKEDITOR.replace('comment_comment');</script>
 {% endblock %}

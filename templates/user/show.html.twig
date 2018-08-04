@@ -34,14 +34,13 @@
                 <th>#</th>
             </tr>
             </thead>
-            {#{% for ouvrage in ouvrages  %}#}
+            {% for ouvrage in ouvrages %}
             <tr>
-                <td><a href="{#{{ path('ouvrage_show'), {id : 'ouvrage.id' }}#}">{#{{ ouvrage.name }}#}</a></td>
-                <td>{#{{ ouvrage.dateMax }}#}</td>
-                <td>{#{{ ouvrage.date }}#}</td>
-                <td></td>
+                <td>{{ ouvrage.title }}| numéro ISBN :  {{ ouvrage.isbnumber }}</td>
+                <td>{{ ouvrage.dateReservation|date('d/m/Y à H:i') }}</td>
+                <td>{{ ouvrage.dateReservation|date_modify("+12 hours")|date('d/m/Y à H:i') }}</td>
             </tr>
-            {# {% endfor %}#}
+            {% endfor %}
 
         </table>
     </div>

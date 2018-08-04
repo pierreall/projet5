@@ -21,20 +21,20 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="{#{{ path('lucky_home')}}#}"><i class="fas fa-home fa-lg"></i> Accueil</a>
+                        <li class="nav-item {% if mainNavHome is defined %}active{% endif %}">
+                            <a class="nav-link" href="/"><i class="fas fa-home fa-lg"></i> Accueil</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% if mainNavBooks is defined %}active{% endif %}">
                             <a class="nav-link" href="{{ path('admin_ouvrage_classic_showAll')}}"><i class="fab fa-searchengin fa-lg"></i> Les ouvrages</a>
                         </li>
-                       <li class="nav-item">
+                       <li class="nav-item {% if mainNavGestBooks is defined %}active{% endif %}">
                            <a class="nav-link"  href="{{ path('admin_ouvrage_managementAll')}}"><i class="fas fa-book fa-lg"></i> Gestion des ouvrages</a>
 
                        </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% if mainNavGestUsers is defined %}active{% endif %}">
                             <a class="nav-link" href="{{ path('user_showAll')}}"><i class="fas fa-users fa-lg"></i> Gestion utilisateurs</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {% if mainNavProfil is defined %}active{% endif %}">
                             <a class="nav-link" href="{{ path('user_profil_admin') }}"><i class="fas fa-user-circle fa-lg"></i> Mon profil</a>
                         </li>
                         <li class="nav-item">

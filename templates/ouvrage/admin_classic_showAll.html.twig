@@ -17,7 +17,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ ouvrage.title }}</h5>
                         <div class="btn-group">
-                            <a href="{{ path('admin_ouvrage_show',{id: ouvrage.id}) }}" class="btn btn-primary">Plus d'information</a>
+                            <a href="{{ path('admin_ouvrage_show',{id: ouvrage.id}) }}" class="btn btn-info">Plus d'information</a>
                             {% if ouvrage.dateReservation == null %}
                                 <span class="btn btn-success disabled">disponible</span>
                             {% else %}

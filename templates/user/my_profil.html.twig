@@ -28,6 +28,7 @@
                 <th>Ouvrage(s) réservé(s)</th>
                 <th>réservé le :</th>
                 <th>à récupèrer au plus tard le :</th>
+                <th>Action</th>
                 <th>#</th>
             </tr>
             </thead>
@@ -36,6 +37,7 @@
                 <td>{{ ouvrage.title }}| numéro ISBN :  {{ ouvrage.isbnumber }}</td>
                 <td>{{ ouvrage.dateReservation|date('d/m/Y à H:i') }}</td>
                 <td>{{ ouvrage.dateReservation|date_modify("+12 hours")|date('d/m/Y à H:i') }}</td>
+                <td><a href="{{ path('cancel_manual_reservation', {id: ouvrage.id}) }}"><button type="button" class="btn btn-danger">Annuler</button></a></td>
             </tr>
             {% endfor %}
 
