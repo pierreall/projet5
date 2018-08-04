@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Ouvrage;
 use App\Entity\User;
 use App\Form\UserProfilType;
 use App\Form\UserType;
@@ -10,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
@@ -27,7 +29,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/admin/user/ajout/", name="user_add")
+     * @Route("/admin/user/ajout", name="user_add")
      */
     public function addAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -47,6 +49,7 @@ class UserController extends Controller
         }
 
         return $this->render('user/add.html.twig', [
+            'mainNavGestUsers' => true,
             'form' => $form->createView()
         ]);
     }
@@ -57,6 +60,8 @@ class UserController extends Controller
     public function showAction (User $user)
     {
         return $this->render('user/show.html.twig', [
+            'mainNavGestUsers' => true,
+            'ouvrages' => $user->getOuvrages(),
             'user' => $user
         ]);
     }
@@ -76,6 +81,7 @@ class UserController extends Controller
         }
 
         return $this->render('user/showAll.html.twig', [
+            'mainNavGestUsers' => true,
             'users' => $users
         ]);
     }
@@ -96,13 +102,11 @@ class UserController extends Controller
             $user->setPassword($password);
             $entityManager->flush();
 
-//            return $this->redirectToRoute('user_show',[
-//                'user' => $user->getId(),
-//            ]);
             return $this->redirectToRoute('user_showAll');
         }
 
         return $this->render('user/edit.html.twig', [
+            'mainNavGestUsers' => true,
             'form' =>$form->createView(),
             'user' => $user
         ]);
@@ -129,16 +133,35 @@ class UserController extends Controller
      * @Route("/user/profil", name="user_profil")
      */
     public function myProfilAction(){
+        $user = $this->getUser();
         $myProfil = $this->getUser();
-       return $this->render('user/my_profil.html.twig', [
-            'myProfil' => $myProfil
+
+
+        return $this->render('user/my_profil.html.twig', [
+            'mainNavProfil' => true,
+            'myProfil' => $myProfil,
+            'ouvrages' => $user->getOuvrages()
+        ]);
+    }
+
+    /**
+     * @Route("/user/profil/admin", name="user_profil_admin")
+     */
+    public function myProfilAdminAction(){
+        $user = $this->getUser();
+        $myProfil = $this->getUser();
+
+        return $this->render('user/admin_my_profil.html.twig', [
+            'mainNavProfil' => true,
+            'myProfil' => $myProfil,
+            'ouvrages' => $user->getOuvrages()
         ]);
     }
 
     /**
      * @Route("/user/profil/edit/{id}", name="user_profil_edit")
      */
-    public function myProfilEditAction(User $user, Request $request, UserPasswordEncoderInterface $passwordEncoder){
+    public function myProfilEditAction(User $user, Request $request, UserPasswordEncoderInterface $passwordEncoder, AuthorizationCheckerInterface $authChecker){
         $entityManager = $this->getDoctrine()->getManager();
 
 
@@ -152,11 +175,21 @@ class UserController extends Controller
 
             return $this->redirectToRoute('user_profil');
         }
+
+        if($authChecker->isGranted('ROLE_ADMIN')){
+            return $this->render('user/admin_edit_my_profil.html.twig', [
+                'mainNavProfil' => true,
+                'form' =>$form->createView(),
+                'user' => $user,
+                'ouvrage' => $user->getOuvrages()
+            ]);
+        }
+
         return $this->render('user/edit_my_profil.html.twig', [
+            'mainNavProfil' => true,
             'form' =>$form->createView(),
-            'user' => $user
+            'user' => $user,
+            'ouvrage' => $user->getOuvrages()
         ]);
     }
-
-
 }

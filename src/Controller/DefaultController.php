@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 // src/Controller/SecurityController.php
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class DefaultController extends Controller
@@ -85,12 +86,28 @@ class DefaultController extends Controller
 //    }
 
     /**
+     * @Route("/")
+     */
+    public function index(AuthorizationCheckerInterface $authChecker){
+        if($authChecker->isGranted('ROLE_ADMIN')){
+            return $this->render('default/admin_home.html.twig', array(
+                'mainNavHome' => true
+            ));
+        }else {
+            return $this->render('default/home.html.twig', array(
+                'mainNavHome' => true
+            ));
+        }
+
+    }
+
+    /**
      * @Route("/admin", name="admin")
      */
-    public function admin(){
+/*    public function admin(){
 //        return new Response('<html><body>Admin page!</body></html>');
         return $this->render('default/admin.html.twig');
-    }
+    }*/
 
     /**
      * @Route("/login", name="login")
@@ -104,6 +121,7 @@ class DefaultController extends Controller
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('default/login.html.twig', array(
+            'mainNavLogin' => true,
             'last_username' => $lastUsername,
             'error'         => $error,
         ));
