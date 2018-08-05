@@ -87,7 +87,12 @@ class Ouvrage
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-  private $comment;
+    private $comment;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $dewey;
 
     /**
      * @return mixed
@@ -95,6 +100,22 @@ class Ouvrage
     public function getTitle ()
     {
         return $this->title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDewey ()
+    {
+        return $this->dewey;
+    }
+
+    /**
+     * @param mixed $dewey
+     */
+    public function setDewey ($dewey): void
+    {
+        $this->dewey = $dewey;
     }
 
     /**

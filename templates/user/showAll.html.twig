@@ -5,13 +5,12 @@
     {% block header %}
         {{ parent() }}
     {% endblock %}
-    <h1 class="jumbotron container mt-4">Gestion des utilisateurs</h1>
+    <h1 class="jumbotron container mt-4">Gestion des utilisateurs  <a href="{{ path('user_add') }}" type="button" class="btn btn-success ml-4">Créer un nouvel utilisateur</a></h1>
     <div class="table-responsive">
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
                 <th>Pseudo utilisateur</th>
-                {#<th>Plus d'infos</th>#}
             </tr>
 
             </thead>
@@ -19,12 +18,11 @@
             {% for user in users %}
                 <tr>
                     <td><a href="{{ path('user_show',{id : user.id}) }}" class="btn btn-link">{{ user.username }}</a></td>
-                    {#<td><i class="fas fa-cube"></i> </td>#}
                 </tr>
             {%  else %}
                 Aucun utilisateur trouvé
             {% endfor %}
         </table>
     </div>
-    <a href="{{ path('user_add') }}" type="button" class="btn btn-outline-success ml-4">Créer un nouvel utilisateur</a>
+
 {% endblock %}

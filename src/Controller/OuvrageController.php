@@ -99,10 +99,14 @@ class OuvrageController extends Controller
     /**
      * @Route("/ouvrage/show/all", name="ouvrage_showAll")
      */
-    public function showAllAction(){
+    public function showAllAction(ReservationManager $reservationManager){
 
         $entityManager = $this->getDoctrine()->getManager();
         $ouvrages = $entityManager->getRepository(Ouvrage::class)->findAll();
+
+        foreach ($ouvrages as $ouvrage){
+            $reservationManager->CheckIfReservationIsFinish($ouvrage, $this);
+        }
 
         if (!$ouvrages){
             throw $this->createNotFoundException(
@@ -138,9 +142,14 @@ class OuvrageController extends Controller
     /**
      * @Route("/admin/ouvrage/classic/show/all", name="admin_ouvrage_classic_showAll")
      */
-    public function adminClassicShowAllAction(){
+    public function adminClassicShowAllAction(ReservationManager $reservationManager){
+
         $entityManager = $this->getDoctrine()->getManager();
         $ouvrages = $entityManager->getRepository(Ouvrage::class)->findAll();
+
+        foreach ($ouvrages as $ouvrage){
+            $reservationManager->CheckIfReservationIsFinish($ouvrage, $this);
+        }
 
         if (!$ouvrages){
             throw $this->createNotFoundException(
@@ -302,11 +311,15 @@ class OuvrageController extends Controller
     /**
      * @Route("/admin/ouvrage/show/all/reservation", name="ouvrage_showAllReservation")
      */
-    public function showAllReservationAction(){
+    public function showAllReservationAction(ReservationManager $reservationManager){
 
 
         $entityManager = $this->getDoctrine()->getManager();
         $ouvrages = $entityManager->getRepository(Ouvrage::class)->findAll();
+
+        foreach ($ouvrages as $ouvrage){
+            $reservationManager->CheckIfReservationIsFinish($ouvrage, $this);
+        }
 
         if (!$ouvrages){
             throw $this->createNotFoundException(
