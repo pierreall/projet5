@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Form\ContactType;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Ouvrage;
 use App\Entity\Task;
@@ -104,10 +105,10 @@ class DefaultController extends Controller
     /**
      * @Route("/admin", name="admin")
      */
-/*    public function admin(){
-//        return new Response('<html><body>Admin page!</body></html>');
-        return $this->render('default/admin.html.twig');
-    }*/
+    /*    public function admin(){
+    //        return new Response('<html><body>Admin page!</body></html>');
+            return $this->render('default/admin.html.twig');
+        }*/
 
     /**
      * @Route("/login", name="login")
@@ -125,6 +126,49 @@ class DefaultController extends Controller
             'last_username' => $lastUsername,
             'error'         => $error,
         ));
+    }
+
+    /**
+     * @Route("/contact", name="contact")
+     */
+    public function contactAction(\Swift_Mailer $mailer, Request $request ){
+
+        $form = $this->createForm(ContactType::class);
+        $form->handleRequest($request);
+        if($form->isValid() && $form->isSubmitted()){
+            $message = (new \Swift_Message($form->get('mailSubject')->getData()))
+                ->setFrom($form->get('mailFrom')->getData())
+                ->setTo('bibliotheque@mail.fr')
+                ->setBody($form->get('mailBody')->getData(), 'text/html')
+//                    $this->renderView(
+//                    // templates/emails/registration.html.twig
+//                        'emails/registration.html.twig',
+//                        array('name' => $name)
+//                    ),
+//                    'text/html'
+//                )
+                /*
+                 * If you also want to include a plaintext version of the message
+                ->addPart(
+                    $this->renderView(
+                        'emails/registration.txt.twig',
+                        array('name' => $name)
+                    ),
+                    'text/plain'
+                )
+                */
+            ;
+
+            $mailer->send($message);
+            return $this->redirectToRoute('/');
+        }
+
+
+       return $this->render('mail.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+
     }
 
 }

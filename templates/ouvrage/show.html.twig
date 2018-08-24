@@ -15,15 +15,15 @@
                         <h5 class="card-title">{{ ouvrage.title }}</h5>
                         <p class="card-text">{{ ouvrage.subtitle }}</p>
                         {% if is_granted('ROLE_USER') %}
-                        <div class="btn-group">
-                            {% if ouvrage.dateReservation == null %}
-                                <a href="{{ path('ouvrage_reservation',{id: ouvrage.id}) }}" class="btn btn-primary">Réserver l'ouvrage</a>
-                                <span class="btn btn-success disabled">disponible</span>
-                            {% else %}
-                                <a class="btn btn-primary disabled">Réserver l'ouvrage</a>
-                                <span class="btn btn-danger disabled">indisponible</span>
-                            {% endif %}
-                        </div>
+                            <div class="btn-group">
+                                {% if ouvrage.dateReservation == null %}
+                                    <a href="{{ path('ouvrage_reservation',{id: ouvrage.id}) }}" class="btn btn-primary">Réserver l'ouvrage</a>
+                                    <span class="btn btn-success disabled">disponible</span>
+                                {% else %}
+                                    <a class="btn btn-primary disabled">Réserver l'ouvrage</a>
+                                    <span class="btn btn-danger disabled">indisponible</span>
+                                {% endif %}
+                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -55,11 +55,13 @@
 
         </div>
         {% if is_granted('ROLE_USER') %}
-        <div class="row mt-3">
-            <div class="col">
-                <button class="btn btn-primary mb-4">donnez votre avis</button>
+            <div class="row mt-3 mb-3">
+                <div class="col">
+                    <button class="btn btn-primary mb-4" id="btnAddComment">donnez votre avis</button>
+                </div>
+                {{ include("ouvrage/add_comment.html.twig") }}
+
             </div>
-        </div>
         {% endif %}
         <div class="row mb-2">
             <div class="col">
@@ -68,12 +70,12 @@
                         <th class="text-center border-right">Pseudo</th>
                         <th class="text-center">Commentaire</th>
                     </tr>
-                    {#{% for comment in comments %}#}
-                    {#<tr>#}
-                    {#<td class="align-middle text-center border-right">{{ comment }}</td>#}
-                    {#<td class="text-justify">{{ comment }}</td>#}
-                    {#<tr>#}
-                    {#{% endfor %}#}
+                    {% for comment in comments %}
+                    <tr>
+                    <td class="align-middle text-center border-right">{{ comment.nameUser.userName }}</td>
+                    <td class="text-justify">{{ comment.content|raw }} Posté le {{ comment.date|date("d/m/Y à H:i:s") }}</td>
+                    <tr>
+                    {% endfor %}
                 </table>
             </div>
         </div>
@@ -81,4 +83,16 @@
     {% block footer %}
         {{ parent() }}
     {% endblock %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#addComment').hide();
+        $('#btnAddComment').on('click', function () {
+            $('#addComment').toggle();
+        });
+    </script>
+    <script src="//cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+
+    <script>CKEDITOR.replace('comment_content');</script>
 {% endblock %}

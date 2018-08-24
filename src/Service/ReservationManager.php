@@ -16,7 +16,7 @@ class ReservationManager extends Controller{
      */
     public function CheckIfReservationIsFinish(Ouvrage $ouvrage, OuvrageController $ouvrageController)
     {
-        if ($ouvrage->getDateReservation() != null) {
+        if ($ouvrage->getDateReservation() != null && $ouvrage->getStatus() == "reservation") {
             $dateToday = new DateTime();
 
             $dateReserv = $ouvrage->getDateReservation()->format('Y-m-d H:i:s');

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -22,6 +23,7 @@ class Ouvrage
     private $user;
     public function __construct ()
     {
+        $this->comments = new ArrayCollection();
 //        $this->user = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -84,15 +86,24 @@ class Ouvrage
      */
     private $dateReservation;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $comment;
+
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     private $dewey;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="nameOuvrage", orphanRemoval=true)
+     */
+    private $comments;
+
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $status;
+
 
     /**
      * @return mixed
@@ -279,22 +290,53 @@ class Ouvrage
     }
 
     /**
-     * @return mixed
+     * @return Collection|Comment[]
      */
-    public function getComment ()
+    public function getComments(): Collection
     {
-        return $this->comment;
+        return $this->comments;
     }
 
     /**
-     * @param mixed $comment
+     * @return mixed
      */
-    public function setComment ($comment): void
+    public function getStatus ()
     {
-        $this->comment = $comment;
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus ($status): void
+    {
+        $this->status = $status;
     }
 
 
+
+//    public function addComment(Comment $comment): self
+//    {
+//        if (!$this->comments->contains($comment)) {
+//            $this->comments[] = $comment;
+//            $comment->setNameOuvrage($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeComment(Comment $comment): self
+//    {
+//        if ($this->comments->contains($comment)) {
+//            $this->comments->removeElement($comment);
+//            // set the owning side to null (unless already changed)
+//            if ($comment->getNameOuvrage() === $this) {
+//                $comment->setNameOuvrage(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 
 
 

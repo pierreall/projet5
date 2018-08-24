@@ -68,13 +68,18 @@ class User implements UserInterface, \Serializable
      */
     protected $oldPassword;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="nameUser", orphanRemoval=true)
+     */
+    private $comments;
 
 
     public function __construct()
     {
         $this->isActive = true;
         $this->ouvrages = new ArrayCollection();
-// may not be needed, see section on salt below
+        $this->comments = new ArrayCollection();
+        // may not be needed, see section on salt below
 // $this->salt = md5(uniqid('', true));
     }
 
@@ -225,6 +230,41 @@ class User implements UserInterface, \Serializable
     {
         $this->ouvrages = $ouvrages;
     }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+
+
+//    public function addComment(Comment $comment): self
+//    {
+//        if (!$this->comments->contains($comment)) {
+//            $this->comments[] = $comment;
+//            $comment->setNameUser($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeComment(Comment $comment): self
+//    {
+//        if ($this->comments->contains($comment)) {
+//            $this->comments->removeElement($comment);
+//            // set the owning side to null (unless already changed)
+//            if ($comment->getNameUser() === $this) {
+//                $comment->setNameUser(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
+
+
 
 
 

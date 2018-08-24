@@ -5,26 +5,56 @@
         {{ parent() }}
     {% endblock %}
     <div class="jumbotron">
-        <h1>Reservation en cours</h1>
+        <h1>Reservations / Emprunts en cours</h1>
     </div>>
-    <div class="container">
+    <div class="container-fluid">
 
-        <table class="table">
-            <tr>
-                <th>Noms client</th>
-                <th>Nom ouvrage</th>
-                <th>Date de réservation</th>
-            </tr>
-            {% for ouvrage in ouvrages %}
-                {% if ouvrage.user != null %}
+        <div class="row">
+
+            <div class="col">
+                <h2>Reservations</h2>
+                <table class="table">
                     <tr>
-                        <td>{{ ouvrage.user.username }}</td>
-                        <td>{{ ouvrage.title }}</td>
-                        <td>{{ ouvrage.dateReservation|date('d/m/Y à H:i') }}</td>
+                        <th>Noms client</th>
+                        <th>Nom ouvrage</th>
+                        <th>Date de réservation</th>
+                        <th>#</th>
                     </tr>
-                {% endif %}
-            {% endfor %}
-        </table>
+                    {% for ouvrage in ouvrages %}
+                        {% if ouvrage.user != null and ouvrage.status == 'reservation' %}
+                            <tr>
+                                <td>{{ ouvrage.user.username }}</td>
+                                <td>{{ ouvrage.title }}</td>
+                                <td>{{ ouvrage.dateReservation|date('d/m/Y à H:i') }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col">
+                <h2>Emprunts</h2>
+                <table class="table">
+                    <tr>
+                        <th>Noms client</th>
+                        <th>Nom ouvrage</th>
+                        <th>Date d'emprunt</th>
+                        <th>#</th>
+                    </tr>
+                    {% for ouvrage in ouvrages %}
+                        {% if ouvrage.user != null and ouvrage.status == 'emprunt' %}
+                            <tr>
+                                <td>{{ ouvrage.user.username }}</td>
+                                <td>{{ ouvrage.title }}</td>
+                                <td>{{ ouvrage.dateReservation|date('d/m/Y à H:i') }}</td>
+                                <td><a href="{{ path('cancel_manual_rent', {id: ouvrage.id}) }}"><button type="button" class="btn btn-danger">Retour</button></a></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+
+        </div>
+
     </div>
 
 
