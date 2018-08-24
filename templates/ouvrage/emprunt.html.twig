@@ -1,0 +1,25 @@
+{% extends "default/base_admin.html.twig" %}
+{% block title %}
+   Emprunt d'un ouvrage
+{% endblock %}
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock %}
+    <div class="container mt-4">
+        <div class="jumbotron">
+            <h1 class="display-4">Emprunt de l'ouvrage : <span class="text-info">"{{ ouvrage.title }}"</span></h1>
+        </div>
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        <div class="form-group">
+            <label for="">Nom de l'emprunteur</label>
+            {{ form_row(form.user) }}
+        </div>
+         <button type="submit" class="btn btn-outline-success">Emprunter</button>
+        {{ form_end(form) }}
+    </div>
+
+    {% block javascripts %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}
