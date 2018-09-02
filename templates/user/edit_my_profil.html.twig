@@ -1,28 +1,25 @@
 {% extends 'base.html.twig' %}
 {% block title %}Mise à jour de mon compte{% endblock %}
 {%  block body %}
+    {{ dump(user) }}
     {% block header %}
         {{ parent() }}
     {% endblock %}
 
-    <h1 class="jumbotron container mt-4">Mise à jour de mon compte</h1>
+    <h1 class="jumbotron display-4 container mt-4">Mise à jour de mon compte</h1>
     <div class="container">
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         <div class="form-group">
-            <label for="">Mon Nom</label>
+            <label for="user_profil_username">Mon Nom</label>
             {{ form_row(form.username) }}
         </div>
         <div class="form-group">
-            <label for="">Mon email</label>
+            <label for="user_profil_email">Mon email</label>
             {{ form_row(form.email) }}
         </div>
 
         <div class="form-group">
-            <label for="oldpassword">Mon ancien mots de passe</label>
-            {{ form_row(form.oldPassword) }}
-        </div>
-        <div class="form-group">
-            <label for="">Mon nouveau mdp</label>
+            <label for="user_profil_password">Mon mot de passe actuel ou un nouveau</label>
             {{ form_row(form.password) }}
         </div>
         <div class="form-group">
@@ -30,12 +27,5 @@
         </div>
         {{ form_end(form) }}
     </div>
-
-    <ul class="group-list">
-        {% for ouv in ouvrage %}
-            <li class="list-item"> {{ ouv.title }} </li>
-        {% endfor %}
-    </ul>
-
 
 {% endblock %}

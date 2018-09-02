@@ -4,13 +4,12 @@
     {% block header %}
         {{ parent() }}
     {% endblock %}
-    <h1 class="text-center pt-3 pb-3">{{ ouvrage.title }}</h1>
+    <h1 class="text-center text-info font-weight-bold pt-3 pb-3">{{ ouvrage.title }}</h1>
     <section class="container">
         <div class="row">
             <div class="col-md col-lg-4">
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="{{ asset('uploads/pictures/' ~ ouvrage.picture) }}" alt="Card image cap">
-                    <!--{{ dump(ouvrage.picture) }}-->
                     <div class="card-body">
                         <h5 class="card-title">{{ ouvrage.title }}</h5>
                         <p class="card-text">{{ ouvrage.subtitle }}</p>
@@ -29,36 +28,29 @@
                 </div>
             </div>
             <div class="col-md col-lg-8">
-                <h2>Catégorie: {{ ouvrage.genre }}</h2>
-                <h3>Résumé :</h3>
+                <h3><b class="font-weight-bold">Résumé :</b></h3>
                 <p class="text-justify">{% autoescape %}
                         {{ ouvrage.resume |raw }} {# var won't be escaped #}
                     {% endautoescape %}</p>
                 <div class="info mb-2">
                     <ul class="list-group">
-                        <li class="list-group-item">Auteur :  {{ ouvrage.author }}</li>
-                        <li class="list-group-item">Editeur : {{ ouvrage.editor }}</li>
-                        <li class="list-group-item">Numero isbn: {{ ouvrage.ISBNumber }}</li>
-                        <li class="list-group-item">Classification : {{ ouvrage.dewey }}</li>
+                        <li class="list-group-item"><b class="font-weight-bold">Auteur :</b>  {{ ouvrage.author }}</li>
+                        <li class="list-group-item"><b class="font-weight-bold">Editeur :</b> {{ ouvrage.editor }}</li>
+                        <li class="list-group-item"><b class="font-weight-bold">Numero isbn :</b> {{ ouvrage.ISBNumber }}</li>
+                        <li class="list-group-item"><b class="font-weight-bold">Classification Dewey :</b> {{ ouvrage.dewey[0] }}</li>
                     </ul>
                 </div>
-                <h3>Avis des lecteurs :</h3>
-                <div class="" style="background-color: orange;"><!--
-   --><a href="#5" title="Donner 5 étoiles">☆</a><!--
-   --><a href="#4" title="Donner 4 étoiles">☆</a><!--
-   --><a href="#3" title="Donner 3 étoiles">☆</a><!--
-   --><a href="#2" title="Donner 2 étoiles">☆</a><!--
-   --><a href="#1" title="Donner 1 étoile">☆</a>
-                </div>
-                <span>nombres de votes : </span>
+
             </div>
 
         </div>
+        <h3 class="mt-4">Avis des lecteurs :</h3>
         {% if is_granted('ROLE_USER') %}
             <div class="row mt-3 mb-3">
                 <div class="col">
                     <button class="btn btn-primary mb-4" id="btnAddComment">donnez votre avis</button>
                 </div>
+
                 {{ include("ouvrage/add_comment.html.twig") }}
 
             </div>
@@ -72,8 +64,12 @@
                     </tr>
                     {% for comment in comments %}
                     <tr>
-                    <td class="align-middle text-center border-right">{{ comment.nameUser.userName }}</td>
-                    <td class="text-justify">{{ comment.content|raw }} Posté le {{ comment.date|date("d/m/Y à H:i:s") }}</td>
+                        {% if comment.nameUser.roles[0] == 'ROLE_ADMIN' %}
+                            <td class="align-middle text-primary font-weight-bold text-center border-right ">{{ comment.nameUser.userName }} </td>
+                        {% else %}
+                            <td class="align-middle text-center border-right">{{ comment.nameUser.userName }} </td>
+                        {% endif %}
+                        <td class="text-justify">{{ comment.content|raw }} <span class="small">Posté le {{ comment.date|date("d/m/Y à H:i:s") }}</span></td>
                     <tr>
                     {% endfor %}
                 </table>

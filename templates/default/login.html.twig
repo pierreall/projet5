@@ -31,9 +31,33 @@
             <button type="submit" class="btn btn-outline-success">connexion</button>
         </form>
 
-
         {% block footer %}
-            {{ parent() }}
+            <footer class="bg-dark text-light" style="position: absolute; bottom: 0px; width: 100%;">
+
+                <div class="container-fluid text-center text-md-left">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <h5 class="text-uppercase">Mentions legales</h5>
+                            <p>Infos sur l'hebergeur: <br>
+                                nom: Hostinger <br>
+                                adresse: Paris <br>
+                                numero telephone:
+
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h5 class="text-uppercase">Liens</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="#">Contacter le créateur du site</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+            </footer>
         {% endblock %}
 
     {% endblock %}

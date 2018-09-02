@@ -1,12 +1,14 @@
 {% extends "default/base_admin.html.twig" %}
-
+{% block title %}
+    Reservations / Emprunts en cours
+{% endblock %}
 {% block body %}
     {% block header %}
         {{ parent() }}
     {% endblock %}
     <div class="jumbotron">
-        <h1>Reservations / Emprunts en cours</h1>
-    </div>>
+        <h1 class="display-4">Reservations / Emprunts en cours</h1>
+    </div>
     <div class="container-fluid">
 
         <div class="row">
@@ -26,6 +28,7 @@
                                 <td>{{ ouvrage.user.username }}</td>
                                 <td>{{ ouvrage.title }}</td>
                                 <td>{{ ouvrage.dateReservation|date('d/m/Y à H:i') }}</td>
+                                <td><a href="{{ path('ouvrage_emprunt', {id: ouvrage.id}) }}"><button type="button" class="btn btn-primary">Emprunter</button></a></td>
                             </tr>
                         {% endif %}
                     {% endfor %}

@@ -8,39 +8,72 @@
     {% endblock %}
 
     <div class="container mt-4">
-        <h1>Information sur mon Profil</h1>
+        <h1 class="display-4 mb-4">Information sur mon Profil</h1>
         {#variable twig pour récupérer info utilisateur#}
         <ul class="list-group">
-            <li class="list-group-item">Pseudo : {{myProfil.username}}</li>
-            <li class="list-group-item">Email : {{ myProfil.email }}</li>
+            <li class="list-group-item"><b>Pseudo :</b> {{myProfil.username}}</li>
+            <li class="list-group-item"><b>Email :</b> {{ myProfil.email }}</li>
         </ul>
 
         <div class="mt-4 text-center">
-            <a href="{{ path('user_profil_edit', {id: myProfil.id}) }}"><button type="button" class="btn btn-warning">Modifier mon Profil <i class="fas fa-sync"></i></button></a>
+            <a href="{{ path('user_profil_edit', {id: myProfil.id}) }}"><button type="button" class="btn btn-warning mb-2">Modifier mon Profil <i class="fas fa-sync"></i></button></a>
             <p class="alert alert-info mt-1">
                 Si vous souhaitez supprimer votre compte, veuillez prendre contact avec la bibliothèque
             </p>
         </div>
+    </div>
+        <div class="container-fluid mt-2">
+            <div class="row">
+                <div class="col">
+                    <table class="table mt-4">
 
-        <table class="table mt-4">
-            <thead class="thead">
-            <tr>
-                <th>Ouvrage(s) réservé(s)</th>
-                <th>réservé le :</th>
-                <th>à récupèrer au plus tard le :</th>
-                <th>Action</th>
-                <th>#</th>
-            </tr>
-            </thead>
-            {% for ouvrage in ouvrages %}
-            <tr>
-                <td>{{ ouvrage.title }}| numéro ISBN :  {{ ouvrage.isbnumber }}</td>
-                <td>{{ ouvrage.dateReservation|date('d/m/Y à H:i') }}</td>
-                <td>{{ ouvrage.dateReservation|date_modify("+12 hours")|date('d/m/Y à H:i') }}</td>
-                <td><a href="{{ path('cancel_manual_reservation', {id: ouvrage.id}) }}"><button type="button" class="btn btn-danger">Annuler</button></a></td>
-            </tr>
-            {% endfor %}
+                        <thead class="thead">
+                        <tr>
+                            <th>Ouvrage(s)</th>
+                            <th>réservé le :</th>
+                            <th>à récupèrer avant le :</th>
+                            <th>#</th>
+                        </tr>
+                        </thead>
+                        {% for ouvrage in ouvrages %}
+                            <h2>Mes réservations</h2>
+                            {% if ouvrage.status == "reservation" %}
+                                <tr>
+                                    <td>{{ ouvrage.title }}| numéro ISBN :  {{ ouvrage.author }}</td>
+                                    <td>{{ ouvrage.dateReservation|date('d/m/Y à H:i') }}</td>
+                                    <td>{{ ouvrage.dateReservation|date_modify("+12 hours")|date('d/m/Y à H:i') }}</td>
+                                    <td><a href="{{ path('cancel_manual_reservation', {id: ouvrage.id}) }}"><button type="button" class="btn btn-danger">Annuler</button></a></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
 
-        </table>
+                    </table>
+                </div>
+                <div class="col">
+                    <table class="table mt-4">
+
+                        <thead class="thead">
+                        <tr>
+                            <th>Ouvrage(s)</th>
+                            <th>emprunté le :</th>
+                            <th>à rendre avant le :</th>
+                            <th>#</th>
+                        </tr>
+                        </thead>
+                        {% for ouvrage in ouvrages %}
+                            <h2>Mes emprunts</h2>
+                            {% if ouvrage.status == "emprunt" %}
+                                <tr>
+                                    <td>{{ ouvrage.title }} # auteur :   {{ ouvrage.author }}</td>
+                                    <td>{{ ouvrage.dateReservation|date('d/m/Y à H:i') }}</td>
+                                    <td>{{ ouvrage.dateReservation|date_modify("+1 month")|date('d/m/Y') }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+
+                    </table>
+                </div>
+
+            </div>
     </div>
 {% endblock %}

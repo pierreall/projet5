@@ -1,47 +1,54 @@
 {% extends "default/base_admin.html.twig" %}
-
+{% block title %} Nos ouvrages {% endblock %}
 {% block body %}
 
     {% block header %}
         {{ parent() }}
     {% endblock %}
-
-    <div class="container">
-        <h1 class="text-center">Nos ouvrages</h1>
-        <div class="card-deck">
-            {% for ouvrage in ouvrages %}
-                {#<div class="row">#}
-                {#<div class="col-lg-1">#}
-                <div class="card mb-4 " style="width: 18rem;">
-                    <img class="card-img-top" src="{{ asset('uploads/pictures/' ~ ouvrage.picture) }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ ouvrage.title }}</h5>
-                        <div class="btn-group">
-                            <a href="{{ path('admin_ouvrage_show',{id: ouvrage.id}) }}" class="btn btn-info">Plus d'information</a>
-                            {% if ouvrage.dateReservation == null %}
-                                <span class="btn btn-success disabled">disponible</span>
-                            {% else %}
-                                <span class="btn btn-danger disabled">indisponible</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                {#</div>#}
-                {#</div>#}
-            {% endfor %}
+    <div class="container-fluid">
+        <h1 class="jumbotron display-4 text-center mt-4">Nos ouvrages</h1>
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            Aucun ouvrage s'affiche ? Essayez une autre catégorie ou (re)essayé plus tard
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <nav aria-label="Page navigation example" class="center">
-            <ul class="pagination justify-content-center">
-                <li class="page-item"><a class="page-link" href="#">Précédent</a></li>
-                <li class="page-itemactive"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#">Suivant</a></li>
-            </ul>
-        </nav>
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        <div class="form-group">
+            <label for="">Selectionner catégorie  :</label>
+            {{ form_row(form.ouvrage) }}
+        </div>
+        <button type="submit" class="btn btn-outline-success mb-4">Afficher</button>
+        {{ form_end(form) }}
+        <div class="row container">
+            <div class="card-deck" style="display: flex; flex-wrap: wrap; justify-content: flex-start;">
+                {% for ouvrage in ouvrages | reverse %}
+                    {%  if ouvrage.dewey == search %}
+                        {#<div class="" style="">#}
+                        <div class="card mb-4 " style="width: 18rem; ">
+                            <img class="card-img-top" src="{{ asset('uploads/pictures/' ~ ouvrage.picture) }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ ouvrage.title }}</h5>
+                                <div class="btn-group">
+                                    <a href="{{ path('admin_ouvrage_show',{id: ouvrage.id}) }}" class="btn btn-info">Plus d'information</a>
+                                    {% if ouvrage.dateReservation == null %}
+                                        <span class="btn btn-success disabled">disponible</span>
+                                    {% else %}
+                                        <span class="btn btn-danger disabled">indisponible</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {#</div>#}
+                        {#</div>#}
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+        </div>
+
     </div>
+
 
     {% block footer %}
         {{ parent() }}
