@@ -39,7 +39,7 @@
                     </ul>
                 </div>
 
-        </div>
+            </div>
         </div>
         <h3 class="mt-4">Avis des lecteurs :</h3>
         <div class="row mt-3 mb-3">
@@ -52,11 +52,14 @@
         </div>
         <div class="row mb-2">
             <div class="col">
-                <table class="table">
+                <table class="table table-dark">
+                    <thead>
                     <tr>
                         <th class="text-center border-right">Pseudo</th>
                         <th class="text-center">Commentaire</th>
+                        <th>#</th>
                     </tr>
+                    </thead>
                     {% for comment in comments %}
                     <tr>
                         {% if comment.nameUser.roles[0] == 'ROLE_ADMIN' %}
@@ -65,6 +68,7 @@
                             <td class="align-middle text-center border-right">{{ comment.nameUser.userName }} </td>
                         {% endif %}
                         <td class="text-justify">{{ comment.content|raw }} <span class="small">Posté le {{ comment.date|date("d/m/Y à H:i:s") }}</span></td>
+                        <td class="align-middle"><a href="{{ path('comment_delete',{id: comment.id}) }}" class="btn btn-danger "><i class="fas fa-trash"></i></a></td>
                     <tr>
                         {% endfor %}
                 </table>

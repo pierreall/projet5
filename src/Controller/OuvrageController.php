@@ -131,21 +131,6 @@ class OuvrageController extends Controller
      */
     public function showAllAction(ReservationManager $reservationManager, Request $request ){
 
-
-        /*$ouvrages = $repo->getAllOuvrages($currentPage);
-
-        $totalPostReturned = $ouvrages->getIterator()->count();
-
-        $totalPost = $ouvrages->count();
-        $iterator = $ouvrages->getIterator();
-
-        $limit = 5 ;
-        $maxPages = ceil ( $paginator -> count () / $limit );
-        $thisPage = $page ;
-        // Pass through the 3 above variables to calculate pages in twig
-        return $this -> render ( 'view.twig.html' , compact ( 'categories' , 'maxPages' , 'thisPage' ));*/
-
-
         $searchBook = new SearchBook();
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -153,26 +138,21 @@ class OuvrageController extends Controller
         $form->handleRequest($request);
         $search[0] = '';
 
-                if($form->isSubmitted()&& $form->isValid()) {
-                    $search = $searchBook->getOuvrage();
+        if($form->isSubmitted()&& $form->isValid()) {
+            $search = $searchBook->getOuvrage();
 
 
-                }
-//                    $entityManager = $this->getDoctrine()->getManager();
+        }
+
         $ouvrages = $entityManager->getRepository(Ouvrage::class)->findAll();
-//        $ouvrages = $entityManager->getRepository(Ouvrage::class)->getOuvrages(0);
 
-//        $ouvrage = new Ouvrage();
-//        $form = $this->createForm(OuvrageType::class, $ouvrage);
-
-//        $form->handleRequest($request);
         foreach ($ouvrages as $ouvrage){
             $reservationManager->CheckIfReservationIsFinish($ouvrage, $this);
         }
 
         if (!$ouvrages){
             throw $this->createNotFoundException(
-                'No product found for id '
+                'pas d ouvrage trouvé '
             );
         }
 
@@ -324,7 +304,6 @@ class OuvrageController extends Controller
 
         $reservationManager->CheckIfReservationIsFinish($ouvrage, $this);
 
-//        $reservationManager->AddReservationInDataBase($ouvrage, $this);
         if ($reservationManager->CheckIfReservationIsFinish($ouvrage, $this)){
             $entityManager = $this->getDoctrine()->getManager();
             $ouvrage->setUser($this->getUser());
@@ -454,23 +433,6 @@ class OuvrageController extends Controller
         ]);
     }
 
-//public function searchAction(Ouvrage $ouvrage, SearchType $searchType, Request $request){
-//        $entityManager = $this->getDoctrine()->getManager();
-//
-//        $form = $this->createForm(SearchType::class, $searchType);
-//        $form->handleRequest($request);
-//        $titreTape = "test";
-//
-//        $titreToSearch = $entityManager->getRepository(Ouvrage::class)->findOneBy(array('title' => $titreTape ));
-//
-//        return $this->render('ouvrage/show/', [
-//           'titreToSearch' => $titreToSearch,
-//           'form' => $form->createView()
-//        ]);
-//
-//
-//}
-
 
     /**
      * @Route("/admin/ouvrage/emprunt/{id}", name="ouvrage_emprunt")
@@ -542,7 +504,21 @@ class OuvrageController extends Controller
     }
 
 
-    public function moderationCommentAction(){
+    /**
+     * @Route("/admin/comment/delete/{id}", name="comment_delete")
+     */
+    public function deleteCommentAction(Comment $comment)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($comment);
+        $entityManager->flush();
 
+        $this->addFlash(
+            'notice', 'Le commentaire a été supprimé'
+        );
+
+        return $this->redirectToRoute('admin_ouvrage_show', [
+            'id' => $comment->getNameOuvrage()->getId()
+        ]);
     }
 }
