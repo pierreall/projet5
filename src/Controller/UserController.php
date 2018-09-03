@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ouvrage;
 use App\Entity\User;
+use App\Form\UserEditType;
 use App\Form\UserProfilType;
 use App\Form\UserType;
 //use http\Env\Request;
@@ -29,7 +30,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/admin/user/ajout", name="user_add")
+     * @Route("/admin/user/add", name="user_add")
      */
     public function addAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -89,17 +90,17 @@ class UserController extends Controller
     /**
      * @Route("/admin/user/edit/{id}", name="user_edit")
      */
-    public function editAction(User $user , Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function editAction(User $user , Request $request /*UserPasswordEncoderInterface $passwordEncoder*/)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
 
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserEditType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted()&&$form->isValid()){
-            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+//            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+//            $user->setPassword($password);
             $entityManager->flush();
 
             return $this->redirectToRoute('user_showAll');
@@ -122,7 +123,7 @@ class UserController extends Controller
         $entityManager->flush();
 
         $this->addFlash(
-            'notice','L\'utilisateur a été supprimé'.$user->getUsername()
+            'notice','L\'utilisateur '.$user->getUsername().' a été supprimé'
         );
 
 
@@ -171,6 +172,8 @@ class UserController extends Controller
         if ($form->isSubmitted()&&$form->isValid()){
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
+            $user->setUsername($form->get('username')->getData());
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('user_profil');

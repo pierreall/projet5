@@ -32,20 +32,20 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "ce champ ne peut être vide")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=64)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Ce champ ne peut être vide")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=254, unique=true)
-     * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\NotBlank(message = "ce champ ne peut être vide")
+     * @Assert\Email(message = "email invalide")
      */
     private $email;
 
@@ -61,12 +61,6 @@ class User implements UserInterface, \Serializable
     private $roles;
 
 
-    /**
-     * @SecurityAssert\UserPassword(
-     *     message = "Erreur votre mot de passe actuel ne correspond pas"
-     * )
-     */
-    protected $oldPassword;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="nameUser", orphanRemoval=true)
@@ -199,21 +193,6 @@ class User implements UserInterface, \Serializable
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOldPassword ()
-    {
-        return $this->oldPassword;
-    }
-
-    /**
-     * @param mixed $oldPassword
-     */
-    public function setOldPassword ($oldPassword): void
-    {
-        $this->oldPassword = $oldPassword;
-    }
 
     /**
      * @return mixed

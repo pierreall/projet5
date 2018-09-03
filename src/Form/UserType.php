@@ -29,7 +29,7 @@ class UserType extends AbstractType
         $builder
             ->add('email', EmailType::class, array('label' => false, 'attr' => array('class' => 'form-control')))
             ->add('username', TextType::class, array('label' => false, 'attr' => array('class' => 'form-control')))
-            ->add('oldPassword', PasswordType::class, array('label' => false, 'attr' => array('class' => 'form-control')))
+//            ->add('oldPassword', PasswordType::class, array('label' => false, 'attr' => array('class' => 'form-control')))
             ->add('Password', RepeatedType::class,  array(
                 'type' => PasswordType::class,
                 'first_options'  => array('label' => 'Password', 'attr' => array('class' => 'form-control')),

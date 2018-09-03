@@ -7,48 +7,57 @@
     <section class="container-fluid">
         <h1 class="jumbotron text-center display-4 mt-3">Bienvenue dans notre bibliothèque{#{{ nomBiblio }#}</h1>
 
-
         <img src="https://blog.thebookedition.com/wp-content/uploads/2014/09/Bibliotheque_municipale_-_Grenoble-1024x768.jpg" alt="bibliotheque_grenoble" class="img-responsive" width="100%">
 
 
 
 
-        <h2 class="mt-4">Nos dernier Ouvrage</h2>
+        <h2 class="mt-4 mb-4 display-4">Nos derniers Ouvrages disponible : </h2>
         <!-- affichage des 3 dernier ouvrage, photo couverture et titre (rien d'autre)-->
-        <div class="card-group">
-            <div class="card">
-                <img class="card-img-top" src=".../100px180/" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
+
+        <div class="container-fluid">
+            <div class="row border">
+                {% for lastOuvrage in lastOuvrages %}
+                    <div class="col-md-4 card-deck">
+                        <div class="card">
+                            <img class="img-thumbnail img-responsive" src="{{ asset('uploads/pictures/' ~ lastOuvrage.picture) }}" alt="illustration couverture dernier ouvrage" height="auto" width="100%">
+                            <div class="card-body">
+                                <h4 class="">{{ lastOuvrage.title }}</h4>
+                                <h5 class="">{{ lastOuvrage.author }}</h5>
+
+                                <div class="btn-group">
+                                    <a href="{{ path('admin_ouvrage_show',{id: lastOuvrage.id}) }}" class="btn btn-info">Plus d'information</a>
+                                    {% if lastOuvrage.dateReservation == null %}
+                                        <span class="btn btn-success disabled">disponible</span>
+                                    {% else %}
+                                        <span class="btn btn-danger disabled">indisponible</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                {% endfor %}
+
             </div>
         </div>
 
-        <h3 class="mt-4">Infos Bibliothèque</h3>
-        <h4>Adresse : </h4>
-        <!--  affichag carte emplacement + horaire  -->
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14237.424871363371!2d2.1684374062908094!3d41.39472301905928!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x137bffcd99b15107!2sBiblioteca+Sofia+Barat!5e0!3m2!1sen!2sfr!4v1532521311273" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
-        <h3 class="mt-4">Contact</h3>
-        <form action="" class="container">
-            <div class="form-group">
-                <label for="">Nom :</label>
-                <input type="text" name="nom" class="form-control">
+        <h2 class="mt-4">Infos Bibliothèque :</h2>
+
+        <div class="row m-4">
+            <div class="col">
+                <h3>Adresse : </h3>
+                <p>16 rue Raoul Blanchard <br>
+                    38000 GRENOBLE
+                </p>
             </div>
-            <div class="form-group">
-                <label for="">Email :</label>
-                <input type="email" name="email" class="form-control">
+            <div class="col">
+                <h3>Contacts : </h3>
+                <i class="fas fa-phone"></i> : 04 56 78 91 11 <br>
+                <i class="fas fa-at"></i> : biblioProjet@gmail.com <br>
+                ou <a href="{{ path('contact') }}" class="btn-inline">formulaire de contact en ligne</a>
             </div>
-            <div class="form-group">
-                <label for="">Message :</label>
-                <textarea name="" id="" cols="30" rows="10" class="form-control">
-      Votre message
-    </textarea>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="envoyer message" class="form-control btn btn-success">
-            </div>
-        </form>
+        </div>
     </section>
+
 {% endblock %}

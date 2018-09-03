@@ -20,6 +20,17 @@ class OuvrageRepository extends ServiceEntityRepository
         parent::__construct($registry, Ouvrage::class);
     }
 
+   /* public function getOuvrages($first_result, $max_results = 1){
+        $qb = $this->createQueryBuilder('ouvrage');
+        $qb
+            ->select('ouvrage')
+            ->setFirstResult($first_result)
+            ->setMaxResults($max_results);
+
+        $pag = new Paginator($qb);
+        return $pag;
+    }*/
+
 //    /**
 //     * Our new getAllPosts() method
 //     *

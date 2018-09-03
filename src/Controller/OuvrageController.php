@@ -5,14 +5,18 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Ouvrage;
 use App\Entity\Rent;
+use App\Entity\SearchBook;
 use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\EmpruntType;
 use App\Form\OuvrageType;
+use App\Form\SearchBookType;
 use App\Service\ReservationManager;
 use DateTime;
 use Doctrine\ORM\Query\Expr\Select;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +37,7 @@ class OuvrageController extends Controller
     }
 
     /**
-     * @Route("/admin/ouvrage/ajout", name="ouvrage_add")
+     * @Route("/admin/ouvrage/add", name="ouvrage_add")
      */
     public function addAction(Request $request)
     {
@@ -56,6 +60,7 @@ class OuvrageController extends Controller
             );
 
             $ouvrage->setPicture($fileName);
+            $ouvrage->setStatus('free');
 
             $entityManager->persist($ouvrage);
             $entityManager->flush();
@@ -98,7 +103,7 @@ class OuvrageController extends Controller
     }
 
     /**
-     * @Route("/admin/ouvrage/{id}", name="admin_ouvrage_show")
+     * @Route("/admin/ouvrage/show/{id}", name="admin_ouvrage_show")
      */
     public function adminShowAction(Ouvrage $ouvrage, ReservationManager $reservationManager, Request $request, AuthorizationCheckerInterface $authChecker)
     {
@@ -124,7 +129,8 @@ class OuvrageController extends Controller
     /**
      * @Route("/ouvrage/show/all", name="ouvrage_showAll")
      */
-    public function showAllAction(ReservationManager $reservationManager, $page=1){
+    public function showAllAction(ReservationManager $reservationManager, Request $request ){
+
 
         /*$ouvrages = $repo->getAllOuvrages($currentPage);
 
@@ -139,9 +145,27 @@ class OuvrageController extends Controller
         // Pass through the 3 above variables to calculate pages in twig
         return $this -> render ( 'view.twig.html' , compact ( 'categories' , 'maxPages' , 'thisPage' ));*/
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $ouvrages = $entityManager->getRepository(Ouvrage::class)->findAll();
 
+        $searchBook = new SearchBook();
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(SearchBookType::class, $searchBook);
+        $form->handleRequest($request);
+        $search[0] = '';
+
+                if($form->isSubmitted()&& $form->isValid()) {
+                    $search = $searchBook->getOuvrage();
+
+
+                }
+//                    $entityManager = $this->getDoctrine()->getManager();
+        $ouvrages = $entityManager->getRepository(Ouvrage::class)->findAll();
+//        $ouvrages = $entityManager->getRepository(Ouvrage::class)->getOuvrages(0);
+
+//        $ouvrage = new Ouvrage();
+//        $form = $this->createForm(OuvrageType::class, $ouvrage);
+
+//        $form->handleRequest($request);
         foreach ($ouvrages as $ouvrage){
             $reservationManager->CheckIfReservationIsFinish($ouvrage, $this);
         }
@@ -153,6 +177,8 @@ class OuvrageController extends Controller
         }
 
         return $this->render('ouvrage/showAll.html.twig', [
+            'form' => $form->createView(),
+            'search' => $search,
             'mainNavBooks' => true,
             'ouvrages' => $ouvrages
         ]);
@@ -161,7 +187,7 @@ class OuvrageController extends Controller
     /**
      * @Route("/admin/ouvrage/management/all", name="admin_ouvrage_managementAll")
      */
-    public function adminShowAllAction(){
+    public function adminOuvrageManagementAllAction(){
         $entityManager = $this->getDoctrine()->getManager();
         $ouvrages = $entityManager->getRepository(Ouvrage::class)->findAll();
 
@@ -180,9 +206,19 @@ class OuvrageController extends Controller
     /**
      * @Route("/admin/ouvrage/classic/show/all", name="admin_ouvrage_classic_showAll")
      */
-    public function adminClassicShowAllAction(ReservationManager $reservationManager){
+    public function adminClassicShowAllAction(ReservationManager $reservationManager, Request $request){
 
+        $searchBook = new SearchBook();
         $entityManager = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(SearchBookType::class, $searchBook);
+        $form->handleRequest($request);
+        $search[0] = '';
+
+        if($form->isSubmitted()&& $form->isValid()) {
+            $search = $searchBook->getOuvrage();
+        }
+
         $ouvrages = $entityManager->getRepository(Ouvrage::class)->findAll();
 
         foreach ($ouvrages as $ouvrage){
@@ -196,6 +232,8 @@ class OuvrageController extends Controller
         }
 
         return $this->render('ouvrage/admin_classic_showAll.html.twig', [
+            'form' => $form->createView(),
+            'search' => $search,
             'mainNavBooks' => true,
             'ouvrages' => $ouvrages
         ]);
@@ -219,11 +257,11 @@ class OuvrageController extends Controller
         if($form->isSubmitted()&&$form->isValid()){
 
             $file = $ouvrage->getPicture();
-            var_dump('submit '.$file);
+
 
             $info = $form->getData();
 
-            var_dump($info);
+
 
             if($info->getPicture() != null){
                 $file = $info->getPicture();
@@ -243,7 +281,7 @@ class OuvrageController extends Controller
             $entityManager->flush();
 
 
-            return $this->redirectToRoute('ouvrage_showAll');
+            return $this->redirectToRoute('admin_ouvrage_classic_showAll');
         }
 
         return $this->render('ouvrage/edit.html.twig', [
@@ -325,7 +363,7 @@ class OuvrageController extends Controller
     /**
      * @Route("/user/ouvrage/cancel/manual/reservation/{id}", name="cancel_manual_reservation")
      */
-    public function cancelManualReservationAction(Ouvrage $ouvrage){
+    public function cancelManualReservationAction(Ouvrage $ouvrage, AuthorizationCheckerInterface $authChecker){
         $entityManager = $this->getDoctrine()->getManager();
         $ouvrage->setDateReservation(null);
         $ouvrage->setUser(null);
@@ -333,6 +371,9 @@ class OuvrageController extends Controller
         $entityManager->flush();
 
         $this->addFlash('notice', 'Votre réservation est annulée');
+        if($authChecker->isGranted('ROLE_ADMIN')){
+            return $this->redirectToRoute('user_profil_admin');
+        }
         return $this->redirectToRoute('user_profil');
     }
 
@@ -413,6 +454,24 @@ class OuvrageController extends Controller
         ]);
     }
 
+//public function searchAction(Ouvrage $ouvrage, SearchType $searchType, Request $request){
+//        $entityManager = $this->getDoctrine()->getManager();
+//
+//        $form = $this->createForm(SearchType::class, $searchType);
+//        $form->handleRequest($request);
+//        $titreTape = "test";
+//
+//        $titreToSearch = $entityManager->getRepository(Ouvrage::class)->findOneBy(array('title' => $titreTape ));
+//
+//        return $this->render('ouvrage/show/', [
+//           'titreToSearch' => $titreToSearch,
+//           'form' => $form->createView()
+//        ]);
+//
+//
+//}
+
+
     /**
      * @Route("/admin/ouvrage/emprunt/{id}", name="ouvrage_emprunt")
      */
@@ -482,4 +541,8 @@ class OuvrageController extends Controller
         ));
     }
 
+
+    public function moderationCommentAction(){
+
+    }
 }

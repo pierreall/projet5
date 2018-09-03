@@ -36,7 +36,7 @@ class Ouvrage
 
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="ce champ ne peut être vide")
      */
     private $title;
 
@@ -46,21 +46,16 @@ class Ouvrage
      */
     private $subTitle;
 
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
-    private $genre;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "ce champ ne peut être vide")
      */
     private $resume;
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "ce champ ne peut être vide")
      */
     private $author;
 
@@ -77,7 +72,7 @@ class Ouvrage
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\File(maxSize = "1024k", mimeTypes={"image/jpeg", "image/jpg", "image/png"})
+     * @Assert\File(maxSize = "1024k", maxSizeMessage="L'image est trop volumineuse (> 1mo)", mimeTypes={"image/jpeg", "image/jpg", "image/png"},  mimeTypesMessage  = "Type de fichier invalide, sont acceptés les images jpeg, jpg et png")
      */
     private $picture;
 
@@ -118,7 +113,7 @@ class Ouvrage
      */
     public function getDewey ()
     {
-        return $this->dewey;
+        return array($this->dewey);
     }
 
     /**
@@ -126,7 +121,7 @@ class Ouvrage
      */
     public function setDewey ($dewey): void
     {
-        $this->dewey = $dewey;
+        $this->dewey = $dewey[0];
     }
 
     /**
@@ -153,21 +148,6 @@ class Ouvrage
         $this->subTitle = $subTitle;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGenre ()
-    {
-        return $this->genre;
-    }
-
-    /**
-     * @param mixed $genre
-     */
-    public function setGenre ($genre): void
-    {
-        $this->genre = $genre;
-    }
 
     /**
      * @return mixed
