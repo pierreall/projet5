@@ -8,7 +8,7 @@
     <div class="container-fluid">
         <h1 class="jumbotron display-4 text-center mt-4">Nos ouvrages</h1>
         <div class="alert alert-info alert-dismissible fade show" role="alert">
-            Aucun ouvrage s'affiche ? Essayez une autre catégorie ou (re)essayé plus tard
+            Aucun ouvrage s'affiche ? Essayez une autre catégorie ou (re)essayez plus tard
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -24,7 +24,6 @@
             <div class="card-deck" style="display: flex; flex-wrap: wrap; justify-content: flex-start;">
                 {% for ouvrage in ouvrages | reverse %}
                     {%  if ouvrage.dewey == search %}
-                        {#<div class="" style="">#}
                         <div class="card mb-4 " style="width: 18rem; ">
                             <img class="card-img-top" src="{{ asset('uploads/pictures/' ~ ouvrage.picture) }}" alt="Card image cap">
                             <div class="card-body">
@@ -39,8 +38,6 @@
                                 </div>
                             </div>
                         </div>
-                        {#</div>#}
-                        {#</div>#}
                     {% endif %}
 
                 {% endfor %}
