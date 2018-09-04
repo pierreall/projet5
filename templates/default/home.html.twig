@@ -13,39 +13,39 @@
 
         <h2 class="mt-4 mb-4 display-4">Nos derniers Ouvrages disponible : </h2>
         <!-- affichage des 3 dernier ouvrage, photo couverture et titre (rien d'autre)-->
-        <div class="row">
-            {% for lastOuvrage in lastOuvrages %}
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <img class="card-img-top img-thumbnail" src="{{ asset('uploads/pictures/' ~ lastOuvrage.picture) }}" alt="illustration couverture dernier ouvrage">
-                        <div class="card-body">
-                            <h4 class="card-title">{{ lastOuvrage.title }}</h4>
-                            <h5 class="card-text">{{ lastOuvrage.author }}</h5>
+        <div class="container-fluid">
+            <div class="row card-deck">
+                {% for lastOuvrage in lastOuvrages %}
+                    <div class="col-md-4 card">
+                        <img class="img-thumbnail mt-3 img-responsive" src="{{ asset('uploads/pictures/' ~ lastOuvrage.picture) }}" alt="illustration couverture dernier ouvrage"  width="100%">
+                        <h4>{{ lastOuvrage.title }}</h4>
+                        <h5>{{ lastOuvrage.author }}</h5>
 
-                            <div class="btn-group">
-                                <a href="{{ path('ouvrage_show',{id: lastOuvrage.id}) }}" class="btn btn-info">Plus d'information</a>
-                                {% if is_granted('ROLE_USER') %}
-                                    {% if lastOuvrage.dateReservation == null %}
-                                        <span class="btn btn-success disabled">disponible</span>
-                                    {% else %}
-                                        <span class="btn btn-danger disabled">indisponible</span>
-                                    {% endif %}
-                                {% endif %}
-                            </div>
+                        <div class="btn-group mb-3 pb-3 m-auto">
+                            <a href="{{ path('ouvrage_show',{id: lastOuvrage.id}) }}" class="btn btn-info">Plus d'information</a>
+                            {% if is_granted('ROLE_USER') %}
+                            {% if lastOuvrage.dateReservation == null %}
+                                <span class="btn btn-success disabled">disponible</span>
+                            {% else %}
+                                <span class="btn btn-danger disabled">indisponible</span>
+                            {% endif %}
+                            {% endif %}
                         </div>
                     </div>
+                {% endfor %}
 
-                </div>
-            {% endfor %}
-
+            </div>
         </div>
         {% if is_granted('ROLE_USER') %}
         {% else %}
-            <h3>Le saviez vous ?</h3>
-            <p class="alert alert-info">
-                Vous souhaitez connaitre les disponibilités des ouvrages qui vous intéresse, en faire mettre de coté ? Voir quand vous devez rendre le livre que vous venez d'emprunter ? pour cela rien de plus simple connecté vous
-                à sans attendre sur votre compte personnel. <br>Pas encore de compte ? Aucun problème, prenez contact avec nous par mail ou en utilisant le formulaire de contact ou passez nous voir sur place, notre personnel se fera un plaisir de vous créer votre compte personnel.
-            </p>
+            <div class="container-fluid">
+                <h3 class="mt-3 ml-3">Le saviez vous ?</h3>
+                <p class="alert alert-info">
+                    Vous souhaitez connaitre les disponibilités des ouvrages qui vous intéresse, en faire mettre de coté ? Voir quand vous devez rendre le livre que vous venez d'emprunter ? pour cela rien de plus simple connecté vous
+                    à sans attendre sur votre compte personnel. <br>Pas encore de compte ? Aucun problème, prenez contact avec nous par mail ou en utilisant le formulaire de contact ou passez nous voir sur place, notre personnel se fera un plaisir de vous créer votre compte personnel.
+                </p>
+            </div>
+
         {% endif %}
         <h2 class="mt-4">Infos Bibliothèque :</h2>
 

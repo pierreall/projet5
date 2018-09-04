@@ -41,18 +41,10 @@
         </div>
         <button type="submit" class="btn btn-outline-warning">Modifier</button>
         {{ form_end(form) }}
-        {{ dump(form.picture) }}
     </div>
     {% block javascripts %}
      {{ parent() }}
-{#        <script src="https://cdn.ckeditor.com/ckeditor5/10.0.0/classic/ckeditor.js"></script>
-        <script>
-            ClassicEditor.create(document.querySelector('#ouvrage_resume')).then(function (editor) {
-                console.log('Editor was initialized edit', editor);
-            }).catch(function (err) {
-                console.error(err.stack);
-            });
-            </script>#}
+
         <script src="//cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
 
        <script>CKEDITOR.replace('ouvrage_resume');</script>
