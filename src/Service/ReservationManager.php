@@ -34,22 +34,4 @@ class ReservationManager extends Controller{
         return true;
     }
 
-    /**
-     * @param Ouvrage $ouvrage
-     */
-    /*public function AddReservationInDataBase(Ouvrage $ouvrage, OuvrageController $ouvrageController){
-
-        var_dump($this->CheckIfReservationIsFinish($ouvrage, $ouvrageController));
-        if ($this->CheckIfReservationIsFinish($ouvrage, $ouvrageController)){
-            $entityManager = $this->getDoctrine()->getManager();
-            $ouvrage->setUser($this->getUser());
-            $date = new DateTime();
-            $date->format('Y-m-d H:i:s');
-            $ouvrage->setDateReservation($date);
-            $entityManager->persist($ouvrage);
-            $entityManager->flush();
-
-            $this->addFlash('notice', 'Ouvrage reservé , vous avez 12h pour le récupérer');
-        }
-    }*/
 }

@@ -329,7 +329,7 @@ class OuvrageController extends Controller
 
 
     /**
-     * @Route("/user/ouvrage/cancel/reservation/{id}", name="cancel_reservation")
+     * @Route("/admin/ouvrage/cancel/reservation/{id}", name="cancel_reservation")
      */
     public function cancelReservationAction(Ouvrage $ouvrage){
         $entityManager = $this->getDoctrine()->getManager();
@@ -357,7 +357,7 @@ class OuvrageController extends Controller
     }
 
     /**
-     * @Route("/user/ouvrage/cancel/manual/rent/{id}", name="cancel_manual_rent")
+     * @Route("/admin/ouvrage/cancel/manual/rent/{id}", name="cancel_manual_rent")
      */
     public function cancelManualRentAction(Ouvrage $ouvrage){
         $entityManager = $this->getDoctrine()->getManager();
@@ -370,18 +370,6 @@ class OuvrageController extends Controller
         return $this->redirectToRoute('admin_ouvrage_managementAll');
     }
 
-
-    /**
-     * @Route("/admin/ouvrage/reservation/users/{id}")
-     */
-    public function myOuvrage(Ouvrage $ouvrage, ReservationManager $reservationManager){
-
-        $reservationManager->CheckIfReservationIsFinish($ouvrage, $this);
-        return $this->render('user/my_ouvrage.html.twig', [
-            'ouvrage' => $ouvrage,
-            'myOuvrage' => $ouvrage->getUser()
-        ]);
-    }
 
     /**
      * @Route("/admin/ouvrage/show/all/reservation", name="ouvrage_showAllReservation")
@@ -430,6 +418,24 @@ class OuvrageController extends Controller
         }
         return $this->redirectToRoute('ouvrage_show',[
             'id' => $ouvrage->getId()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/comment/delete/{id}", name="comment_delete")
+     */
+    public function deleteCommentAction(Comment $comment)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        $this->addFlash(
+            'notice', 'Le commentaire a été supprimé'
+        );
+
+        return $this->redirectToRoute('admin_ouvrage_show', [
+            'id' => $comment->getNameOuvrage()->getId()
         ]);
     }
 
@@ -509,21 +515,5 @@ class OuvrageController extends Controller
     }
 
 
-    /**
-     * @Route("/admin/comment/delete/{id}", name="comment_delete")
-     */
-    public function deleteCommentAction(Comment $comment)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($comment);
-        $entityManager->flush();
 
-        $this->addFlash(
-            'notice', 'Le commentaire a été supprimé'
-        );
-
-        return $this->redirectToRoute('admin_ouvrage_show', [
-            'id' => $comment->getNameOuvrage()->getId()
-        ]);
-    }
 }
