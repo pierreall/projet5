@@ -329,7 +329,7 @@ class OuvrageController extends Controller
 
 
     /**
-     * @Route("/admin/ouvrage/cancel/reservation/{id}", name="cancel_reservation")
+     * @Route("/user/ouvrage/cancel/reservation/{id}", name="cancel_reservation")
      */
     public function cancelReservationAction(Ouvrage $ouvrage){
         $entityManager = $this->getDoctrine()->getManager();
