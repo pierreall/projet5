@@ -451,11 +451,16 @@ class OuvrageController extends Controller
             case 'free':
 
                 if($form->isSubmitted()&& $form->isValid()) {
-                    $ouvrage->setStatus('emprunt');
+
                     $rentUser = $rent->getUser();
 
                     $objetUser = $entityManager->getRepository(User::class)->findOneBy(array('username' => $rentUser));
-
+                    if ($objetUser){
+                        $ouvrage->setStatus('emprunt');
+                    }else {
+                        $this->addFlash('notice', 'Pseudo inconnu');
+                        break;
+                    }
                     $ouvrage->setUser($objetUser);
 
                     $dateRent = new DateTime();
