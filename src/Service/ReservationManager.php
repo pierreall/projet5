@@ -5,9 +5,9 @@ namespace App\Service;
 use App\Controller\OuvrageController;
 use App\Entity\Ouvrage;
 use DateTime;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class ReservationManager extends Controller{
+class ReservationManager extends AbstractController{
 
     /**
      * @param Ouvrage $ouvrage
